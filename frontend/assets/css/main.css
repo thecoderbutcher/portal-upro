@@ -1,0 +1,20 @@
+@import url(dashboard.css);
+
+body {
+  background-color: #dbdee3;
+}
+
+ul li{
+  list-style: none;
+}
+a{
+  text-decoration: none;
+}
+.btn-primary{
+  background-color: #8d0e57;
+  border: 1px solid #d6006d;
+}
+.btn-primary:hover{
+  background-color: #d6006d;
+  border: 1px solid #8d0e57;
+}

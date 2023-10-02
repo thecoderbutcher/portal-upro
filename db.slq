@@ -1,0 +1,597 @@
+CREATE TABLE plataforma_upro.ubicaciones (
+	id serial4 NOT NULL,
+	nombre varchar(255) NULL,
+	CONSTRAINT ubicaciones_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE plataforma_upro.roles (
+	id serial4 NOT NULL,
+	nombre varchar(255) NULL,
+	CONSTRAINT roles_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE plataforma_upro.secretaria (
+	id serial4 NOT NULL,
+	nombre varchar(255) NULL,
+	CONSTRAINT secretaria_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE plataforma_upro.areas (
+	id serial4 NOT NULL,
+	nombre varchar(255) NULL,
+	secretaria_id serial4 NOT NULL,
+	CONSTRAINT areas_pkey PRIMARY KEY (id)
+);
+
+ALTER TABLE plataforma_upro.areas ADD CONSTRAINT fk_secretaria FOREIGN KEY (secretaria_id) REFERENCES plataforma_upro.secretaria(id);
+
+CREATE TABLE plataforma_upro.empleados (
+	id serial4 NOT NULL,
+	documento varchar(40) NULL,
+	apellido varchar(50) NULL,
+	nombres varchar(50) NULL,
+	fecha_nacimiento date NULL,
+	email varchar(255) NULL,
+	telefono varchar(50) NULL,
+	contrasena varchar(255) NULL,
+	ubicacion_id int4 NULL DEFAULT 1,
+	area_id int4 NULL,
+	rol_id int4 NULL DEFAULT 5,
+	status int4 NOT NULL DEFAULT 0,
+	CONSTRAINT empleados_pkey PRIMARY KEY (id)
+);
+ALTER TABLE plataforma_upro.empleados ADD CONSTRAINT empleados_ubicacion_id_fkey FOREIGN KEY (ubicacion_id) REFERENCES plataforma_upro.ubicaciones(id);
+ALTER TABLE plataforma_upro.empleados ADD CONSTRAINT empleados_area_id_fkey FOREIGN KEY (area_id) REFERENCES plataforma_upro.areas(id);
+ALTER TABLE plataforma_upro.empleados ADD CONSTRAINT empleados_rol_id_fkey FOREIGN KEY (rol_id) REFERENCES plataforma_upro.roles(id);
+
+CREATE TABLE plataforma_upro.registros (
+	id serial4 NOT NULL,
+	empleado_id int4 NULL,
+	registrador_id int4 NULL,
+	fecha_entrada timestamp NULL,
+	fecha_salida timestamp NULL,
+	CONSTRAINT registros_pkey PRIMARY KEY (id)
+);
+
+ALTER TABLE plataforma_upro.registros ADD CONSTRAINT registros_empleado_id_fkey FOREIGN KEY (empleado_id) REFERENCES plataforma_upro.empleados(id);
+ALTER TABLE plataforma_upro.registros ADD CONSTRAINT registros_registrador_id_fkey FOREIGN KEY (registrador_id) REFERENCES plataforma_upro.empleados(id);
+
+INSERT INTO plataforma_upro.roles (id, nombre) VALUES
+    (1,'Administrador'),
+    (2,'Seguridad'),
+    (3,'Recursos Humanos'),
+    (4,'Gestión de Alumnos'),
+    (5,'Empleado');
+
+INSERT INTO plataforma_upro.ubicaciones (nombre) VALUES
+    ('Villa Mercedes'),
+    ('Rotonda Noroeste'),
+    ('Ex SCAC'),
+    ('Serranías Puntanas'),
+    ('Quines'),
+	('Buena Esperanza'),
+	('Tilisarao'),
+	('Candelaria'),
+	('Merlo'),
+	('San Francisco'),
+	('La Calera'),
+	('San Martin'),
+	('Justo Daract');
+
+ INSERT INTO plataforma_upro.secretaria (nombre) VALUES
+    ('SECRETARIA GENERAL'),
+    ('SECRETARIA EXTENSION Y VINCULACION'),
+    ('SECRETARIA ACADÉMICA'),
+    ('PROVEEDORES EXTERNOS'),
+    ('SECRETARIA RECURSO HUMANO');
+
+INSERT INTO plataforma_upro.areas (id,nombre,secretaria_id) VALUES
+	 (1,'COORDINADOR EXTENSIONES AULICAS',3),
+	 (2,'ADMINISTRATIVA DE SEDE',1),
+	 (3,'ADMINISTRATIVO EXTENSIONES AÚLICAS',1),
+	 (4,'MAESTRANZA',1),
+	 (5,'MANTENIMIENTO',1),
+	 (6,'VIGILANCIA',1),
+	 (7,'RESPONSABLE MANTENIMIENTO Y PAÑOL',1),
+	 (8,'DIRECTOR EXTENSIONES AULICAS',3),
+	 (9,'ADMINISTRATIVO DE PAÑOL - EXTENSION AULICA EX-SCAC',1),
+	 (10,'ADMINISTRATIVA DIRECTOR DE EXTENSIONES AULICAS',1);
+INSERT INTO plataforma_upro.areas (id,nombre,secretaria_id) VALUES
+	 (11,'COORDINADORA EXTENSION AULICA',3),
+	 (12,'JEFE PROGRAMA EXTENSION Y VINCULACION',2),
+	 (13,'JEFE DE PRORGAMA GABINETE INTERDISCIPLINARIO PARA LA INCLUSIÓN',2),
+	 (14,'ADMINISTRATIVA DE SECRETARIA RECURSO HUMANO',4),
+	 (15,'ADMINISTRATIVO DE SECRETARIA ACADEMICA',3),
+	 (16,'JEFE PROGRAMA DE MANTENIMIENTO EDILICIO Y DE INSTALACIONES',1),
+	 (17,'JEFE SUBPROGRAMA COMPRAS Y DESARROLLO DE PROVEEDORES',1),
+	 (18,'ADMINISTRATIVO ENCARGADO NAVE TECNICA',1),
+	 (19,'ADMINISTRATIVO SECRETARIA DE RECTOR',1),
+	 (20,'ADMINISTRATIVO DE PAÑOL ESTETICA',1);
+INSERT INTO plataforma_upro.areas (id,nombre,secretaria_id) VALUES
+	 (21,'COORDINADOR TECNICO DE NIVELACION',3),
+	 (22,'RESPONSABLE DE PROTOCOLO Y CEREMONIAL',2),
+	 (23,'ADMINISTRATIVO SECRETARIA DE EXTENSION Y VINCULACION',2),
+	 (24,'JEFA DE PROGRAMA COORDINACION PEDAGOGICA Y FORM. INSTRUCTORES',3),
+	 (25,'JEFE DE PROGRAMA HACIENDA',1),
+	 (26,'ADMINISTRATIVO PAÑOL',1),
+	 (27,'ADMINISTRATIVO SECRETARIA ACADEMICA',3),
+	 (28,'COORDINADOR TÉCNICO',3),
+	 (29,'ADMINISTRATIVO PROGRAMA COMPRAS Y CONTRATACIONES',1),
+	 (30,'ADMINISTRATIVO SUBPROGRAMA SISTEMAS INFORMATICOS Y MANTENIMIENTO DE REDES',1);
+INSERT INTO plataforma_upro.areas (id,nombre,secretaria_id) VALUES
+	 (31,'JEFE DE OBRA DE PROGRAMA PROYECTOS Y CONSULTORIA',2),
+	 (32,'JEFA DE PROGRAMA DE INSERCION LABORAL AL GRADUADO',2),
+	 (33,'RESPONSABLE DE COMUNICACIÓN',2),
+	 (34,'SECRETARIO DE EXTENSIÓN Y VINCULACIÓN',2),
+	 (35,'JEFE DE SUBPROGRAMA GESTION ALUMNOS',1),
+	 (36,'COORDINADOR PROGRAMA PROYECTOS Y CONSULTORIAS',2),
+	 (37,'SUPERVISOR DE MAESTRANZA',1),
+	 (38,'ADMINISTRATIVO PROGRAMA PROYECTOS Y CONSULTORIAS',2),
+	 (39,'JEFA DE PROGRAMA COMPRAS Y CONTRATACIONES',1),
+	 (40,'JEFA PROGRAMA ANALISIS Y LIQUIDACION DE HABERES',4);
+INSERT INTO plataforma_upro.areas (id,nombre,secretaria_id) VALUES
+	 (41,'ADMINISTRATIVO DE SECRETARIA RECURSO HUMANO',4),
+	 (42,'DIRECTOR DE CARRERA',3),
+	 (43,'JEFE SUBPROGRAMA ABASTECIMIENTO Y LOGÍSTICA',1),
+	 (44,'ADMINISTRATIVO PROGRAMA CONTROL Y ASESORAMIENTO LEGAL',1),
+	 (45,'ADMINISTRATIVO GESTION ALUMNOS',1),
+	 (46,'ADMINISTRATIVA ENCARGADA NAVE TECNICA',1),
+	 (47,'ADMINISTRATIVO PROGRAMADOR DE SERVIDORES',1),
+	 (48,'ADMINISTRATIVA ENCARGADA DE EDIFICIO INNOVAR',1),
+	 (49,'SECRETARIA DE RECURSOS HUMANOS',4),
+	 (50,'ADMINISTRATIVO CALL CENTER',2);
+INSERT INTO plataforma_upro.areas (id,nombre,secretaria_id) VALUES
+	 (51,'SECRETARIA ACADÉMICA',3),
+	 (52,'JEFE DE PROGRAMA PROYECTOS Y CONSULTORIAS',2),
+	 (53,'ADMINISTRATIVO DE SUBPROGRAMA GESTION ALUMNOS',1),
+	 (54,'ADMINISTRATIVA ENCARGADA NAVE CREATIVA',1),
+	 (55,'JEFE DE SUBPROGRAMA TESORERIA GENERAL',1),
+	 (56,'DIRECTORA CARRERA',3),
+	 (57,'ADMINISTRATIVO DE RECURSOS HUMANOS',4),
+	 (58,'RESPONSABLES HIGIENE Y SEGURIDAD LABORAL',4),
+	 (59,'ADMINISTRATIVO DE PROGRAMA CONTROL Y ASESORAMIENTO LEGAL',1),
+	 (60,'SECRETARIA GENERAL',1);
+INSERT INTO plataforma_upro.areas (id,nombre,secretaria_id) VALUES
+	 (61,'ARQUITECTO',2),
+	 (62,'JEFA DE PROGRAMA GESTION DE ALUMNOS',1),
+	 (63,'JEFA DE PROGRAMA CONTROL Y ASESORAMIENTO LEGAL',1),
+	 (64,'EXTERNA',2),
+	 (65,'JEFE DE PROGRAMA PROGRAMACION Y DESARROLLO DE SISTEMAS',1),
+	 (66,'RECTOR',1),
+	 (67,'ADMINISTRATIVO ENCARGADO EDIFICIO NAVE CREATIVA',1),
+	 (68,'JEFA SUBPROGRAMA PRESUPUESTO SISTEMA CONTABLE Y PATRIMONIO',1),
+	 (69,'ADMINISTRATIVA DE SECRETARIA GENERAL',1),
+	 (70,'JEFE SUBPROGRAMA CONTROL DE AUSENTISMO',4);
+INSERT INTO plataforma_upro.areas (id,nombre,secretaria_id) VALUES
+	 (71,'ADMINISTRATIVO PROGRAMA HACIENDA',4),
+	 (72,'ADMINISTRATIVO SECRETARIA RECURSOS HUMANOS',4),
+	 (73,'COMUNICACION',2),
+	 (74,'ADM NIVELACION - ACADEMICA',3),
+	 (75,'ADM - CALL CENTER - EXTENSION Y VINCULACION',2),
+	 (76,'ARQ PROYECTOS - EXTENSION Y VINCULACION',2),
+	 (77,'JEFE SUBPROGRAMA DE PROYECTOS Y CONSULTORIA',2),
+	 (78,'JEFE DE MANTENIMIENTO',1),
+	 (79,'PAÑOL',1),
+	 (80,'ADMINISTRATIVO SECRETARIA GENERAL',1);
+INSERT INTO plataforma_upro.areas (id,nombre,secretaria_id) VALUES
+	 (81,'JEFE DE SUBPROGRAMA DE MANTENIMIENTO',1),
+	 (82,'COORDINADORA',3),
+	 (83,'INSTRUCTOR',3),
+	 (84,'AUXILIAR',3),
+	 (85,'INSTRUCTOR FICA',3);
+
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('37638540',NULL,'lgdfontana540@uprosanluis.edu.ar','2664-663124','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',3,5,285,'DENOTTA FONTANA','LUCILA GUADALUPE'),
+	 ('42909811',NULL,'mlalopez811@uprosanluis.edu.ar','2664704465','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'AGUERO LOPEZ','MARIA LUJAN'),
+	 ('38751089',NULL,'nmalarcon089@uprosanluis.edu.ar','2664-640479','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'ALARCON','NAZARENO MARCOS'),
+	 ('38751204',NULL,'beaastudillo204@uprosanluis.edu.ar','2664-790571','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',3,3,0,'ALAGIA ASTUDILLO','BRIAN EZEQUIEL'),
+	 ('36580070',NULL,'vtarrieta070@uprosanluis.edu.ar','2658408122','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'ARRIETA','VANESA TATIANA'),
+	 ('30587212',NULL,'carlanoemibenssa@uprosanluis.edu.ar','2657-605447','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'BENSSA','CARLA NOEMI'),
+	 ('43954322',NULL,'smbrito322@uprosanluis.edu.ar','2664889146','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'BRITO','SOFIA MARIA MERCEDES'),
+	 ('34685177',NULL,'cpcamuzzi177@uprosanluis.edu.ar','2664-939387','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',3,3,0,'CAMUZZI','CECILIA PAOLA'),
+	 ('26893247',NULL,'paolaandreacoria@uprosanluis.edu.ar','2657-563657','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'CORIA','PAOLA ANDREA'),
+	 ('36543508',NULL,'cjescudero508@uprosanluis.edu.ar','2664260783','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'ESCUDERO','CYNTHIA JOHANA');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('21741143',NULL,'monicaescudero@uprosanluis.edu.ar','2657-585250','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'ESCUDERO','MONICA'),
+	 ('28183644',NULL,'mdfernandez644@uprosanluis.edu.ar','2657-625151','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'FERNANDEZ','MARIA DEOLINDA'),
+	 ('22786407',NULL,'amferreyra407@uprosanluis.edu.ar','2657-492788','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'FERREYRA','ANA MARIA'),
+	 ('42133551',NULL,'lmfunes@uprosanluis.edu.ar','2664-004556','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'FUNES','LAURA MALENA'),
+	 ('25394470',NULL,'lagauna470@uprosanluis.edu.ar','2657-333612','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'GAUNA','LUIS ANGEL'),
+	 ('24990461',NULL,'marielajudithgimenez@uprosanluis.edu.ar','2657-655792','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'GIMENEZ','MARIELA JUDITH'),
+	 ('39092262',NULL,'megino@uprosanluis.edu.ar','2664-734454','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'GINO','MATIAS EZEQUIEL'),
+	 ('30312915',NULL,'gagodoy915@uprosanluis.edu.ar','2657-323658','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'GODOY','GABRIEL ALBERTO'),
+	 ('14973543',NULL,'lngodoy@uprosanluis.edu.ar','2657-687683','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'GODOY','LIDIA NOEMI'),
+	 ('31347060',NULL,'kvguzman060@uprosanluis.edu.ar','2657-626836','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'GUZMAN','KARINA VERONICA');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('21741085',NULL,'ablucero@uprosanluis.edu.ar','2657-249151','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'LUCERO','ALICIA BEATRIZ'),
+	 ('23066351',NULL,'amgerardo@uprosanluis.edu.ar','2657-588086','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',1,3,0,'MARTIN','GERARDO ANDRES'),
+	 ('38439680',NULL,'cemattuos680@uprosanluis.edu.ar','2664888916','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'MATTOUS','CESAR EZEQUIEL'),
+	 ('37717800',NULL,'mlmiranda800@uprosanluis.edu.ar','2657669965','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'MIRANDA','MARIA LUCIANA'),
+	 ('44530660',NULL,'dkmojica@uprosanluis.edu.ar','2664-792189','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'MOJICA','DANIELA KAREN'),
+	 ('26214474',NULL,'mbmurino474@uprosanluis.edu.ar','2657-226801','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'MURIÑO','MONICA BEATRIZ'),
+	 ('34700930',NULL,'jaochoa930@uprosanluis.edu.ar','2665043681','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'OCHOA','JOSE ABDON'),
+	 ('22697518',NULL,'aortiz@uprosanluis.edu.ar','2657-280332','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'ORTIZ','ALICIA'),
+	 ('42632027',NULL,'baperalta027@uprosanluis.edu.ar','3512128944','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'PERALTA','BRISIA AGOSTINA'),
+	 ('33384938',NULL,'jequinones938@uprosanluis.edu.ar','2665106571','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'QUIÑONES','JESSICA EDITH');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('33800554',NULL,'vdromero554@uprosanluis.edu.ar','2658 401929','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'ROMERO','VERONICA DANIELA'),
+	 ('29621720',NULL,'frosales@uprosanluis.edu.ar','2664-976938','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',3,3,0,'ROSALES','FRANCISCO ABEL REYES'),
+	 ('35315385',NULL,'mfsosa385@uprosanluis.edu.ar','2664938181','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'SOSA','MARINA FLAVIA'),
+	 ('14960576',NULL,'sosacirilarita@uprosanluis.edu.ar','2657-563513','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'SOSA','CIRILA RITA'),
+	 ('41773650',NULL,'eyvallejos650@uprosanluis.edu.ar','2664-849303','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'VALLEJOS','EMILSE YAMILA'),
+	 ('22422482',NULL,'cavega482@uprosanluis.edu.ar','2657-244720','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'VEGA','CARLOS ALBERTO'),
+	 ('14497360',NULL,'iivelazquez360@uprosanluis.edu.ar','2657-552662','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'VELAZQUEZ','INOELDA ISMAELA'),
+	 ('30569383',NULL,'jvvrodriguez@uprosanluis.edu.ar','2664-330246','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'VELAZQUEZ RODRIGUEZ','JESICA VALERIA'),
+	 ('31479550',NULL,'amleyes@uprosanluis.edu.ar','2657-333757','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',45,3,273,'LEYES','ANALIA MARCELA'),
+	 ('27074358',NULL,'saguilera@uprosanluis.edu.ar','2657524507','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'AGUILERA','SERGIO SEBASTIAN');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('39990736',NULL,'axelalemano@uprosanluis.edu.ar','2664-542391','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',5,3,0,'ALEMANO SOSA','AXEL IVAN'),
+	 ('22316068',NULL,'gealonso068@uprosanluis.edu.ar','351-6993326','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',16,3,0,'ALONSO','GUSTAVO EDUARDO'),
+	 ('20195415',NULL,'hdamaya@uprosanluis.edu.ar','2657-666437','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',5,3,0,'AMAYA','HECTOR DARIO'),
+	 ('29859133',NULL,'acandurell133@uprosanluis.edu.ar','2657-608631','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',17,3,0,'ANDURELL','ALDO CESAR'),
+	 ('41920040',NULL,'aaarrieta040@uprosanluis.edu.ar','2664-006744','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'ARRIETA','AGUSTIN ALFREDO'),
+	 ('35614203',NULL,'miasensio203@uprosanluis.edu.ar','2657-675313','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',7,3,0,'ASENSIO','MANUEL IGNACIO'),
+	 ('33089986',NULL,'nebaigorria986@uprosanluis.edu.ar','266-4817475','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'BAIGORRIA','NORBERTO EDGAR'),
+	 ('23088060',NULL,'albaronio@uprosanluis.edu.ar','2664-341780','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'BARONIO','ADRIANA LORENA'),
+	 ('27833795',NULL,'crbelotti795@uprosanluis.edu.ar','2665108942','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'BELOTTI','CECILIA ROMINA'),
+	 ('36580065',NULL,'osbenitez065@uprosanluis.edu.ar','2657637208','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'BENITEZ','ORLANDO SEBASTIAN');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('23636193',NULL,'mvchillura@uprosanluis.edu.ar','2657-673140','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'CHILLURA','MARIA DEL VALLE'),
+	 ('35915959',NULL,'rmcruseno959@uprosanluis.edu.ar','2657-689952','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',5,3,0,'CRUSEÑO','RODRIGO MARTIN'),
+	 ('35915550',NULL,'oscardanieldacunagatica@uprosanluis.edu.ar','2657-520860','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'DACUÑA GATICA','OSCAR DANIEL'),
+	 ('39796549',NULL,'jreescudero@uprosanluis.edu.ar','2665-138574','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'ESCUDERO','JOEL RAUL EZEQUIEL'),
+	 ('39388626',NULL,'mjfederico@uprosanluis.edu.ar','2657327665','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',15,3,0,'FEDERICO','MARIA JOSEFINA'),
+	 ('43839789',NULL,'amfernandez789@uprosanluis.edu.ar','2657-702139','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'FERNANDEZ','ABRIL MAGALI'),
+	 ('32817309',NULL,'cafernandez309@uprosanluis.edu.ar','2664-364284','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'FERNANDEZ','CESAR ANGEL FAUSTO'),
+	 ('38751973',NULL,'nahuelvalentinferraro@uprosanluis.edu.ar','2657-642786','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',5,3,0,'FERRARO','NAHUEL VALENTIN'),
+	 ('25191586',NULL,'mgatica@uprosanluis.edu.ar','2657-238801','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'GATICA','MAURICIO MARTIN'),
+	 ('35764824',NULL,'hdgatica824@uprosanluis.edu.ar','2664024284','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'GATICA','HUGO DANIEL');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('31212838',NULL,'edgonzalez@uprosanluis.edu.ar','2657-239046','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',5,3,0,'GONZALEZ','EDGARDO DANIEL'),
+	 ('30007239',NULL,'jelagos@uprosanluis.edu.ar','2664-891740','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',5,3,0,'LAGOS','JULIO ENRIQUE'),
+	 ('42133808',NULL,'rglopez808@uprosanluis.edu.ar','2664937235','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'LOPEZ','RODRIGO GUILLERMO'),
+	 ('36543537',NULL,'ldlucero537@uprosanluis.edu.ar','2664376030','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'LUCERO','LEANDRO DAVID'),
+	 ('18904842',NULL,'nmmartinez842@uprosanluis.edu.ar','2664938814','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'MARTINEZ','NAOMI MELANIE'),
+	 ('36632774',NULL,'mercadogimena@uprosanluis.edu.ar','2657-304504','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'MERCADO','GIMENA JESUS'),
+	 ('41596203',NULL,'mmmoyano203@uprosanluis.edu.ar','2664949329','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'MOYANO','MERCEDES MARIEL'),
+	 ('38018220',NULL,'aleoddi@uprosanluis.edu.ar','266-4264235','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',8,3,0,'ODDI','ALEJANDRO NICOLAS'),
+	 ('30687564',NULL,'hectorfabianortiz@uprosanluis.edu.ar','2657-227879','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'ORTIZ','HECTOR FABIAN'),
+	 ('13675131',NULL,'lhoviedo131@uprosanluis.edu.ar','2657-583246','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'OVIEDO','LUIS HUMBERTO');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('12051500',NULL,'ajponce@uprosanluis.edu.ar','2657- 689808','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'PONCE','ARTURO JAVIER'),
+	 ('36227559',NULL,'adpuccioni@uprosanluis.edu.ar','','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',9,3,0,'PUCCIONI','ALICIA DANIELA'),
+	 ('44359213',NULL,'nmromero213@uprosanluis.edu.ar','2665004285','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'ROMERO','NICOLE MAGALÍ'),
+	 ('24081634',NULL,'ndscalise634@uprosanluis.edu.ar','297-5098815','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'SCALISE','NESTOR DARIO'),
+	 ('39393942',NULL,'jvslagos@uprosanluis.edu.ar','266-4682317','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',10,3,0,'SOSA LAGOS','JIMENA VICTORIA'),
+	 ('41841614',NULL,'gjsnievas@uprosanluis.edu.ar','2664-213248','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'SOSA NIEVAS','GONZALO JULIO'),
+	 ('39991596',NULL,'ldvilchez596@uprosanluis.edu.ar','2664009669','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',5,3,0,'VILCHEZ','LUCAS DANIEL'),
+	 ('37504917',NULL,'clgiuliani917@uprosanluis.edu.ar','2657-300545','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',40,3,274,'GIULIANI','CARLA LUCIA'),
+	 ('38619061',NULL,'jzepol94@gmail.com','2657-301882','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',47,3,278,'LOPEZ GARCIAS','JUAN MANUEL'),
+	 ('13373481',NULL,'cdchueca481@uprosanluis.edu.ar','2657-589023','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',28,3,0,'CHUECA','CARLOS DANIEL');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('39734295',NULL,'abarias295@uprosanluis.edu.ar','2657-611390','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',19,3,0,'ARIAS','ANALIA BELEN'),
+	 ('16631775',NULL,'pebarroso775@uprosanluis.edu.ar','2657-493955','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',21,3,0,'BARROSO','PATRICIA EMA'),
+	 ('41721861',NULL,'adrianbecerra@uprosanluis.edu.ar','2657-719426','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',20,3,0,'BECERRA','NESTOR ADRIAN'),
+	 ('35765457',NULL,'benavidestamara@uprosanluis.edu.ar','2657-326250','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',23,3,0,'BENAVIDES','TAMARA SALOME'),
+	 ('37716655',NULL,'febertune@uprosanluis.edu.ar','2657-209889','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',25,3,0,'BERTUNE','FRANCO EZEQUIEL'),
+	 ('37716938',NULL,'mmbquiroga938@uprosanluis.edu.ar','2657-546041','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',26,3,0,'BLENGINO QUIROGA','MATIAS MARCELO'),
+	 ('36220154',NULL,'fernandac@uprosanluis.edu.ar','354-4611475','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',27,3,0,'CALDERON','FERNANDA YAMILA'),
+	 ('35915853',NULL,'nacardini853@uprosanluis.edu.ar','2657-329445','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',28,3,0,'CARDINI','NICOLAS ARMANDO'),
+	 ('35884181',NULL,'fncuello@uprosanluis.edu.ar','2657710024','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',29,3,0,'CUELLO','FRANCO NICOLAS'),
+	 ('37505035',NULL,'cediaz035@uprosanluis.edu.ar','2657-239995','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',30,3,0,'DIAZ','CARLOS EMANUEL');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('31479436',NULL,'phdiaz436@uprosanluis.edu.ar','2657-309108','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',31,3,0,'DIAZ','PABLO HERNAN'),
+	 ('40319182',NULL,'mnechandia182@uprosanluis.edu.ar','2657393375','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',33,3,0,'ECHANDIA','MARIA NAZARENA'),
+	 ('23721803',NULL,'mjechevarria803@uprosanluis.edu.ar','2657-491769','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',34,3,0,'ECHEVARRIA','MARIO JAVIER'),
+	 ('31342922',NULL,'alfernandez922@uprosanluis.edu.ar','2657-563673','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',36,3,0,'FERNANDEZ','ANA LUCIA'),
+	 ('32187058',NULL,'cdferreyra058@uprosanluis.edu.ar','2657-212668','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',28,3,0,'FERREYRA','CAROLINA DE LOS ANGELES'),
+	 ('39090342',NULL,'jagalarza342@uprosanluis.edu.ar','2657-230390','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',38,3,0,'GALARZA','JULIANA AYELEN'),
+	 ('34104776',NULL,'mfgarcia776@uprosanluis.edu.ar','2657-282468','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',39,3,0,'GARCIA','MARIA FLORENCIA'),
+	 ('30008303',NULL,'macgonzalez@uprosanluis.edu.ar','2657294494','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',23,3,0,'GONZALEZ','MARIA CONSTANZA'),
+	 ('14207417',NULL,'rggross417@uprosanluis.edu.ar','2657-208718','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',42,3,0,'GROSS','ROLANDO GERARDO'),
+	 ('42744108',NULL,'camilasofiaguinazu@uprosanluis.edu.ar','2657300159','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',29,3,0,'GUIÑAZU','CAMILA SOFIA');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('39137813',NULL,'ljlagos@uprosanluis.edu.ar','2657312129','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',44,3,0,'LAGOS','LUCAS JAVIER'),
+	 ('26915424',NULL,'aclmassa424@uprosanluis.edu.ar','2657-614614','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',48,3,0,'LUCERO MASSA','ANDREA CARINA'),
+	 ('35475973',NULL,'mjmanzuelli973@uprosanluis.edu.ar','2657-546893','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',49,3,0,'MANZUELLI','MELANIA JUDITH'),
+	 ('27074133',NULL,'lamartinez133@uprosanluis.edu.ar','2657-670634','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',50,3,0,'MARTINEZ','LORENA ANDREA'),
+	 ('26915114',NULL,'lgmiloni@uprosanluis.edu.ar','2657-646084','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',52,3,0,'MILONI','LUCAS GASTON'),
+	 ('39071429',NULL,'rbmolina429@uprosanluis.edu.ar','2657327460','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',29,3,0,'MOLINA','ROCIO BELEN'),
+	 ('35915885',NULL,'namoran885@uprosanluis.edu.ar','2657-208527','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',54,3,0,'MORAN','NADIA AYELEN'),
+	 ('37192752',NULL,'rmorichetti@uprosanluis.edu.ar','2657-204121','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',55,3,0,'MORICHETTI','ROBERTO'),
+	 ('39397195',NULL,'mgortiz@uprosanluis.edu.ar','2657637441','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',27,3,0,'ORTIZ','MAXIMO GONZALO'),
+	 ('12458032',NULL,'adpartemi032@uprosanluis.edu.ar','261-6018024','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',28,3,0,'PARTEMI','ANGEL DARIO');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('28106866',NULL,'mbperez866@uprosanluis.edu.ar','2657344200','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',23,3,0,'PEREZ','MARIA BELEN'),
+	 ('17352736',NULL,'mpperez736@uprosanluis.edu.ar','2657351599','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',53,3,0,'PEREZ','MARCELA PATRICIA'),
+	 ('38749003',NULL,'lgqarce003@uprosanluis.edu.ar','2657-648316','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',50,3,0,'QUIROGA ARCE','LUCAS GASTON'),
+	 ('38426368',NULL,'frovira@uprosanluis.edu.ar','2657-238478','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',53,3,0,'ROVIRA','FACUNDO EXEQUIEL'),
+	 ('34688143',NULL,'sasupicciatti143@uprosanluis.edu.ar','2657-622929','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',29,3,0,'SUPICCIATTI','SOFIA ALEJANDRA'),
+	 ('32633235',NULL,'luisvega@uprosanluis.edu.ar','2657-311022','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',26,3,0,'VEGA','LUIS ALBERTO'),
+	 ('33947092',NULL,'mdarellano092@uprosanluis.edu.ar','2664379185','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'ARELLANO','MATIAS DANIEL'),
+	 ('16838509',NULL,'cbarbero@uprosanluis.edu.ar','3537690653','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'BARBERO','CARLOS DANIEL'),
+	 ('25564933',NULL,'accamargo@uprosanluis.edu.ar','2664367787','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'CAMARGO','CRISTIAN ARIEL'),
+	 ('35915931',NULL,'flcarmona931@uprosanluis.edu.ar','2657647607','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',73,3,0,'CARMONA','FLORENCIA LEONELLA');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('30365125',NULL,'kdcodorniu125@uprosanluis.edu.ar','2664007281','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',80,3,0,'CODORNIU','KARINA DE LOS ANGELES'),
+	 ('36358597',NULL,'jmdaract597@uprosanluis.edu.ar','2664209747','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'DARACT','JUAN MARTIN'),
+	 ('35312580',NULL,'sgfarut580@uprosanluis.edu.ar','2664020028','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',79,3,0,'FARUT','SARA GISELA'),
+	 ('37505594',NULL,'fnfernandez594@uprosanluis.edu.ar','2664636090','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'FERNANDEZ','FRANCO NICOLAS'),
+	 ('32161482',NULL,'amfsoto@uprosanluis.edu.ar','2664332307','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'FUENTES SOTO','ALEJANDRO MIGUEL'),
+	 ('29986248',NULL,'cggonzalezgil@uprosanluis.edu.ar','2664887668','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'GONZALEZ GIL','CARLOS GABRIEL'),
+	 ('24681779',NULL,'lheredia@uprosanluis.edu.ar','2664030513','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'HEREDIA','LUIS EDUARDO DANIEL'),
+	 ('34859094',NULL,'fjlafuente094@uprosanluis.edu.ar','2657336815','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',73,3,0,'JUAREZ LAFUENTE','FLORENCIA'),
+	 ('38749243',NULL,'gonzalopez@uprosanluis.edu.ar','2657208237','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',73,3,0,'LOPEZ','GONZALO'),
+	 ('25295738',NULL,'mvmarino@uprosanluis.edu.ar','2664779918','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',80,3,0,'MARINO','MARTA VERÓNICA');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('33157587',NULL,'camviademonte@uprosanluis.edu.ar','2664895605','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',80,3,0,'MARTÍNEZ VIADEMONTE','CAROLINA ALEJANDRA'),
+	 ('35475624',NULL,'mmellert624@uprosanluis.edu.ar','2657650468','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',73,3,0,'MELLERT','MARIANO'),
+	 ('32094499',NULL,'damojeda499@uprosanluis.edu.ar','2664338891','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'MORALES OJEDA','DANIEL ALBERTO'),
+	 ('18095097',NULL,'igmoyetta097@uprosanluis.edu.ar','2657-336768','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',56,3,0,'MOYETTA','IRMA GLADYS'),
+	 ('34421664',NULL,'mjmunoz@uprosanluis.edu.ar','2657-556848','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',57,3,0,'MUÑOZ','MARIA JOSE'),
+	 ('31466741',NULL,'sgnegri741@uprosanluis.edu.ar','2657-510622','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',58,3,0,'NEGRI','SUSANA GISELA'),
+	 ('22233005',NULL,'eanunez005@uprosanluis.edu.ar','1164810122','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',78,3,0,'NUÑEZ','ESTEBAN ALBERTO'),
+	 ('14624507',NULL,'dooddi507@uprosanluis.edu.ar','2664264238','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'ODDI','DANIEL OMAR'),
+	 ('17123490',NULL,'haolguin@uprosanluis.edu.ar','2664501824','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'OLGUIN','HUGO ALEJANDRO'),
+	 ('26668348',NULL,'mpereira@uprosanluis.edu.ar','2664402440','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'PEREIRA','MARIO SEBASTIAN');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('38439611',NULL,'ampfigueroa611@uprosanluis.edu.ar','2665010507','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',79,3,0,'PEREZ FIGUEROA','AGOSTINA MARIA AYELEN'),
+	 ('35883870',NULL,'mnpersa870@uprosanluis.edu.ar','2657-689808','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',60,3,0,'PERSA','MELISA NOELIA'),
+	 ('24681479',NULL,'friartez479@uprosanluis.edu.ar','2664971133','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',78,3,0,'RIARTEZ','FRANCISCO ALEJANDRO'),
+	 ('29733654',NULL,'carivero654@uprosanluis.edu.ar','2657560421','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',78,3,0,'RIVERO','CARLOS ALEX'),
+	 ('95000066',NULL,'lgsramirez@uprosanluis.edu.ar','2664937044','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'SALINAS RAMIREZ','LIDIO GUZMAN'),
+	 ('30849084',NULL,'lmsalvatierra084@uprosanluis.edu.ar','2657-711143','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',62,3,0,'SALVATIERRA','LETICIA MARIANA'),
+	 ('35476048',NULL,'vsavoretti048@uprosanluis.edu.ar','2657-502941','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',63,3,0,'SAVORETTI','VIRGINIA'),
+	 ('16759302',NULL,'gaserrano@uprosanluis.edu.ar','2664802398','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'SERRANO','GUSTAVO ALFREDO'),
+	 ('30973454',NULL,'mlsosa454@uprosanluis.edu.ar','2657-653622','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',65,3,0,'SOSA','MARCOS LUCIANO'),
+	 ('12231430',NULL,'jjsurroca430@uprosanluis.edu.ar','265 758-0029','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',66,3,0,'SURROCA','JOAQUIN JUAN');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('37640767',NULL,'fernandojavierterranova@uprosanluis.edu.ar','2664704725','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'TERRANOVA','FERNANDO JAVIER'),
+	 ('27393658',NULL,'ntorres@uprosanluis.edu.ar','2657-222261','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',67,3,0,'TORRES','NATALIA SOLEDAD'),
+	 ('37599137',NULL,'sitszadorski137@uprosanluis.edu.ar','2657391861','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',79,3,0,'TORRES SZADORSKI','SAUL IVAN'),
+	 ('39090499',NULL,'msupanza499@uprosanluis.edu.ar','2657-206262','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',68,3,0,'URQUIZA PANZA','MELINA SOFIA'),
+	 ('35764998',NULL,'lnviale998@uprosanluis.edu.ar','2664-361463','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',70,3,0,'VIALE','LEANDRO NICOLAS'),
+	 ('31845726',NULL,'jbzafra@uprosanluis.edu.ar','2657-783176','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',71,3,0,'ZAFRA','JESSICA BEATRIZ'),
+	 ('39992962',NULL,'csprado962@uprosanluis.edu.ar','2664-223100','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',3,3,275,'PRADO','CARLA SOFIA'),
+	 ('32652204',NULL,'nselada204@uprosanluis.edu.ar','2664842493','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,289,'SELADA','NICOLAS ISAIAS'),
+	 ('37627777',NULL,'rhaguilera@uprosanluis.edu.ar','3537-331455','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',14,3,0,'AGUILERA','ROMINA DEL HUERTO'),
+	 ('28738088',NULL,'gafamar088@uprosanluis.edu.ar','2657631245','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,305,'FAMAR','GUSTAVO ARIEL');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('39137570',NULL,'lazcurra@uprosanluis.edu.ar','2664686004','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'AZCURRA','LUCAS ABEL'),
+	 ('20414884',NULL,'jrazcurra884@uprosanluis.edu.ar','2664404815','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'AZCURRA','JUAN RAMON'),
+	 ('30478246',NULL,'fbonato246@uprosanluis.edu.ar','2657285780','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'BONATO','FRANCISCO JOSE'),
+	 ('37505206',NULL,'mbusso206@uprosanluis.edu.ar','','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'BUSSO','MARINA'),
+	 ('33430975',NULL,'recbudin@uprosanluis.edu.ar','2657617025','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'CABEZA BUDÍN','ROSARIO ELENA'),
+	 ('35875676',NULL,'nicarranza@uprosanluis.edu.ar','','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'CARRANZA','NATALÍ IVANA'),
+	 ('31843098',NULL,'encheredia098@uprosanluis.edu.ar','2664711390','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'CARRIZO HEREDIA','EMMANUAL NICOLAS'),
+	 ('12196501',NULL,'pecasciola501@uprosanluis.edu.ar','2657289929','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'CASCIOLA','PEDRO ENRIQUE'),
+	 ('32164267',NULL,'macopetti267@uprosanluis.edu.ar','15316076','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'COPETTI','MARIA ANTONELA'),
+	 ('27136438',NULL,'jacorrea@uprosanluis.edu.ar','2664867384','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'CORREA','JOSE ADRIAN');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('27150339',NULL,'ahcrotto339@uprosanluis.edu.ar','2664297119','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'CROTTO','ALEJANDRO HONORIO'),
+	 ('23999314',NULL,'mdferizola314@uprosanluis.edu.ar','2657661952','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'FERIZOLA','MARIO DANIEL'),
+	 ('17698626',NULL,'gbfernandez626@uprosanluis.edu.ar','2757545974','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'FERNANDEZ','GRACIELA BEATRIZ'),
+	 ('36480221',NULL,'hoferretjans221@uprosanluis.edu.ar','2664488262','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'FERRETJANS','HUGO OMAR'),
+	 ('28184716',NULL,'rmflores@uprosanluis.edu.ar','2664587497','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'FLORES','RICARDO MARTIN'),
+	 ('26214109',NULL,'pdgamba109@uprosanluis.edu.ar','2657448363','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'GAMBA','PABLO DANIEL'),
+	 ('22273307',NULL,'sagarcia307@uprosanluis.edu.ar','2664484210','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'GARCIA','SERGIO ALBERTO'),
+	 ('28587571',NULL,'dagodoy571@uprosanluis.edu.ar','2657772452','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'GODOY','DIEGO ALBERTO'),
+	 ('26284271',NULL,'vakurz271@uprosanluis.edu.ar','2657344676','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'KURZ','VICTOR ANDRES'),
+	 ('35884151',NULL,'mlepez.i@uprosanluis.edu.ar','2657319041','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'LEPEZ','JORGE MAURICIO');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('32164287',NULL,'cdlira@uprosanluis.edu.ar','2657643790','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'LIRA','CRISTIAN DANIEL'),
+	 ('31936789',NULL,'jjlopez@uprosanluis.edu.ar','2657285702','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'LOPEZ','JUAN JOSE'),
+	 ('21382476',NULL,'mamanzano@uprosanluis.edu.ar','2664211419','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'MANZANO','MARCELO ANIBAL'),
+	 ('38749149',NULL,'fbmathot149@uprosanluis.edu.ar','2657672383','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'MATHOT','FATIMA BELEN'),
+	 ('29905020',NULL,'pcmelano020@uprosanluis.edu.ar','2657508000','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'MELANO','PATRICIA CECILIA'),
+	 ('28451555',NULL,'mgmondino555@uprosanluis.edu.ar','2657659743','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'MONDINO','MARIANO GABRIEL'),
+	 ('20135111',NULL,'ramontivero111@uprosanluis.edu.ar','2657622888','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'MONTIVERO','RICARDO ALBERTO'),
+	 ('17024973',NULL,'lwmunoz@uprosanluis.edu.ar','15674148','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'MUÑOZ','LUIS WENCESLAO'),
+	 ('23949301',NULL,'wiontivero@uprosanluis.edu.ar','2664012344','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'ONTIVERO','WALTER ISAAC'),
+	 ('37716796',NULL,'jbpalma@uprosanluis.edu.ar','2657610346','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'PALMA','JAQUELINA BELEN');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('27136230',NULL,'lapennini230@uprosanluis.edu.ar','2665027153','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'PENNINI','LEONARDO ALBANO'),
+	 ('27408885',NULL,'apinciroli@uprosanluis.edu.ar','2657557901','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'PINCIROLI','AGUSTINA'),
+	 ('25191396',NULL,'vrravelli396@uprosanluis.edu.ar','#N/D','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'RAVELLI','VANINA RAQUEL EMILCE'),
+	 ('23947272',NULL,'mlromero@uprosanluis.edu.ar','2664482703','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'ROMERO','MARCELO LUIS'),
+	 ('22580382',NULL,'jarosales382@uprosanluis.edu.ar','2657 504295','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'ROSALES','JAVIER ADRIAN'),
+	 ('37172721',NULL,'mespagano721@uprosanluis.edu.ar','2942461057','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'SOSA PAGANO','MATZEN EZEQUIEL ESTEBAN'),
+	 ('25134229',NULL,'dalacalle229@uprosanluis.edu.ar','2657320671','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,277,'LACALLE','DAVID ALEJANDRO'),
+	 ('21741152',NULL,'jcaguilera152@uprosanluis.edu.ar','2657202383','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,296,'AGUILERA','JULIO CESAR'),
+	 ('33000988',NULL,'emasensio988@uprosanluis.edu.ar','2657236313','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',85,3,0,'ASENSIO','EDUARDO MAXIMILIANO'),
+	 ('30918556',NULL,'mabalbidaris556@uprosanluis.edu.ar','2664028853','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'BALBIDARIS SANCERIN','MAURO ARNOLDO');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('29387990',NULL,'vebeltran@uprosanluis.edu.ar','2664365553','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'BELTRAN','VANESA ELIZABETH'),
+	 ('37543415',NULL,'evelynmariaximenacenturion@uprosanluis.edu.ar','2657212776','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'CENTURION','EVELYN MARIA XIMENA'),
+	 ('22274650',NULL,'pdchaves650@uprosanluis.edu.ar','2657609184','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'CHAVES','PABLO DANIEL'),
+	 ('41597147',NULL,'mechincuini@uprosanluis.edu.ar','2664657601','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'CHINCUINI','MATIAS EZEQUIEL'),
+	 ('23202412',NULL,'robertomanuelcorrea@uprosanluis.edu.ar','2664259144','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'CORREA','ROBERTO MANUEL'),
+	 ('21062647',NULL,'debardcristianflavio@uprosanluis.edu.ar','2657610119','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'DEBARD','CRISTIAN FLAVIO'),
+	 ('36772861',NULL,'fdesteban861@uprosanluis.edu.ar','2657679063','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',85,3,0,'ESTEBAN','FRANCISCO DANIEL'),
+	 ('29147120',NULL,'dafenocchio120@uprosanluis.edu.ar','2657249157','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'FENOCCHIO','DIEGO ALBERTO'),
+	 ('28234784',NULL,'funesmartin@uprosanluis.edu.ar','3512098587','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'FUNES','MARTIN FACUNDO'),
+	 ('22543207',NULL,'caguerra207@uprosanluis.edu.ar','2657652178','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'GUERRA','CARLOS ALBERTO');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('31542795',NULL,'ljofrepasinetti@uprosanluis.edu.ar','2664251443','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'JOFRE PASINETTI','LUIS FEDERICO'),
+	 ('34060476',NULL,'gmkoenig476@uprosanluis.edu.ar','2657490496','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'KOENIG','GUSTAVO MARTIN'),
+	 ('29835015',NULL,'glmagaldi015@uprosanluis.edu.ar','2657525279','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',85,3,0,'MAGALDI','GUILLERMO LUCIANO'),
+	 ('28208290',NULL,'llmansilla@uprosanluis.edu.ar','2657222827','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'MANSILLA LEYRI','LAURA'),
+	 ('28184779',NULL,'dmunoz779@uprosanluis.edu.ar','2664377587','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'MUÑOZ','DIEGO'),
+	 ('35915802',NULL,'venojeda@uprosanluis.edu.ar','2657311965','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'NAZARIO OJEDA','VICTOR EMMANUEL'),
+	 ('20326649',NULL,'jorgeramonoga@uprosanluis.edu.ar','2657672072','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'OGA','JORGE RAMON'),
+	 ('38090282',NULL,'juanmanueloga@uprosanluis.edu.ar','2657506651','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'OGA','JUAN MANUEL'),
+	 ('45481799',NULL,'jeosoria799@uprosanluis.edu.ar','2665027986','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'OLIVA SORIA','JOSE EMMANUEL'),
+	 ('17246058',NULL,'rhorellana058@uprosanluis.edu.ar','2664833667','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'ORELLANA','RICARDO HERANAN');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('36687667',NULL,'neoschonholz667@uprosanluis.edu.ar','2664638580','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'ORQUERA SCHONHOLZ','NICOLAS EZEQUIEL'),
+	 ('26476922',NULL,'ddoviedo922@uprosanluis.edu.ar','2657-647227','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'OVIEDO','DOMINGO DARIO'),
+	 ('12883443',NULL,'hpallero.i@uprosanluis.edu.ar','2657612991','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'PALLERO','HUMERTO ORLANDO'),
+	 ('38751178',NULL,'jepalma178@uprosanluis.edu.ar','2664217452','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'PALMA','JAVIER EMMANUEL'),
+	 ('26467340',NULL,'edpennacchioni340@uprosanluis.edu.ar','2657560446','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'PENNACCHIONI','EDUARDO DANIEL'),
+	 ('36479436',NULL,'faperroni436@uprosanluis.edu.ar','2664653719','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'PERRONI','FRANCISCO ANTONIO'),
+	 ('14771370',NULL,'jaquevedo370@uprosanluis.edu.ar','2567504645','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'QUEVEDO','JOSE ALBERTO'),
+	 ('22661532',NULL,'jlrebaliatti@uprosanluis.edu.ar','2664545873','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'REBALIATTI','JOSE LUIS'),
+	 ('38749717',NULL,'jsrodriguezrovacio.e@uprosanluis.edu.ar','2657242958','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'RODRIGUEZ ROVACIO','JENNIFER STEFANIA'),
+	 ('32012697',NULL,'jprperassi@uprosanluis.edu.ar','2657616722','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'ROJAS','JUAN PABLO');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('23390546',NULL,'rossigustavoariel@uprosanluis.edu.ar','2657525366','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'ROSSI','GUSTAVO ARIEL'),
+	 ('42845783',NULL,'orrbaez@uprosanluis.edu.ar','2657225619','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'ROSSI BAEZ','ORNELLA RITA'),
+	 ('31518303',NULL,'vrsosa303@uprosanluis.edu.ar','2664240999','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'SOSA','VICTOR RAMON'),
+	 ('34442468',NULL,'santiagodanielsuarez@uprosanluis.edu.ar','2657492993','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'SUAREZ','SANTIAGO DANIEL'),
+	 ('17810116',NULL,'cavalerga116@uprosanluis.edu.ar','2657507793','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'VALERGA','CESAR ARIEL'),
+	 ('33292133',NULL,'jvolk133@uprosanluis.edu.ar','2657289929','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'VOLK','JUAN JOSE'),
+	 ('34442600',NULL,'maabramo600@uprosanluis.edu.ar','2657-320940','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',12,3,303,'ABRAMO','MARIA ANTONELLA'),
+	 ('32456717',NULL,'florenciamagaliaguilar@uprosanluis.edu.ar','2657491568','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,302,'AGUILAR','FLORENCIA MAGALI'),
+	 ('27136441',NULL,'saaguilera441@uprosanluis.edu.ar','2664407912','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'AGUILERA','SERGIO ABRAHAM'),
+	 ('25394694',NULL,'saaguirre@uprosanluis.edu.ar','2657 557549','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'AGUIRRE','SILVIA ADRIANA');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('37090203',NULL,'vsacavaignac203@uprosanluis.edu.ar','2657329027','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',15,3,0,'ALANIZ CAVAIGNAC','VICTORIA STEFANIA'),
+	 ('41807234',NULL,'aaachavero234@uprosanluis.edu.ar','2665133616','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'ALBORNOZ CHAVERO','AGATA AYLEN'),
+	 ('12450403',NULL,'oejalcaraz@uprosanluis.edu.ar','2657288314','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'ALCARAZ','OMAR ELIAS JOSE'),
+	 ('32164237',NULL,'aramora237@uprosanluis.edu.ar','2657231472','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',85,3,0,'ALVAREZ MORA','ALFREDO RODOLFO'),
+	 ('35764833',NULL,'caalvornoz833@uprosanluis.edu.ar','2664364660','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'ALVORNOZ','CLAUDIA ANALIA'),
+	 ('27074404',NULL,'haantunes404@uprosanluis.edu.ar','2657-670559','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',18,3,0,'ANTUNES','HUGO ANDRES'),
+	 ('31542975',NULL,'carloshumbertoardanaz@uprosanluis.edu.ar','3513503618','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'ARDANAZ','CARLOS HUMBERTO'),
+	 ('29962366',NULL,'ararellano366@uprosanluis.edu.ar','2657304231','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',26,3,0,'ARELLANO','ADRIANA ROMINA'),
+	 ('42142402',NULL,'aaarrieta@uprosanluis.edu.ar','2664-375609','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'ARRIETA','ANGELES ABIGAIL'),
+	 ('35764897',NULL,'njavila897@uprosanluis.edu.ar','2664705431','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',5,3,0,'AVILA','NESTOR JAVIER');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('18571805',NULL,'luisadrianbaigorria@uprosanluis.edu.ar','2664681797','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'BAIGORRIA','LUIS ADRIAN'),
+	 ('26214499',NULL,'dgbarroso499@uprosanluis.edu.ar','2657-234684','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',20,3,0,'BARROSO','DARIO GUSTAVO'),
+	 ('31660525',NULL,'avbarrozo@uprosanluis.edu.ar','2657-201842','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',22,3,0,'BARROZO','ANA VALERIA'),
+	 ('35097247',NULL,'ambazan@uprosanluis.edu.ar','2392484249','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'BAZAN','ADRIAN MOHAMED'),
+	 ('34442553',NULL,'xeabecerra@uprosanluis.edu.ar','2657-223016','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'BECERRA','XIMENA ELI AYELEN'),
+	 ('25799693',NULL,'marianogonzalobensusan@uprosanluis.edu.ar','2657-653300','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'BENSUSAN','MARIANO GONZALO'),
+	 ('31635081',NULL,'mabergamini081@uprosanluis.edu.ar','2657-669033','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',24,3,0,'BERGAMINI','MARIA ANALIA'),
+	 ('34421902',NULL,'mfbergoglio902@uprosanluis.edu.ar','2657235543','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',85,3,0,'BERGOGLIO','MARIO FEDERICO'),
+	 ('25695204',NULL,'pdbecerra204@uprosanluis.edu.ar','2665013679','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'BESERRA','PATRICIA DEL VALLE'),
+	 ('25191459',NULL,'patricioborys@uprosanluis.edu.ar','2657-336403','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',26,3,0,'BORYS','PATRICIO');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('31518233',NULL,'crbaguilar233@uprosanluis.edu.ar','2664405030','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'BRIZUELA AGUILAR','CESAR RAMON'),
+	 ('36580359',NULL,'nabustos359@uprosanluis.edu.ar','2664582651','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',79,3,0,'BUSTOS','NELIDA ARACELI'),
+	 ('35430554',NULL,'fernandoandrescantero@uprosanluis.edu.ar','2664389562','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'CANTERO','FERNANDO ANDRES'),
+	 ('41919826',NULL,'myccuello@uprosanluis.edu.ar','2657246204','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',75,3,0,'CASAÑAS CUELLO','MILAGROS YOHANA'),
+	 ('30581799',NULL,'nmcavallera799@uprosanluis.edu.ar','02664-15004334','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',11,3,0,'CAVALLERA','NADIA MARINA'),
+	 ('27394396',NULL,'rhctorres396@uprosanluis.edu.ar','2657-615775','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',28,3,0,'CHIESA TORRES','ROMAN HUMBERTO'),
+	 ('37505175',NULL,'fdclesquerre175@uprosanluis.edu.ar','2664-347174','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',3,3,0,'CHUECA LESQUERRE','FRANCISCO DANIEL'),
+	 ('27453295',NULL,'mariaeugeniaclop@uprosanluis.edu.ar','2657653184','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'CLOP','MARIA EUGENIA'),
+	 ('38748838',NULL,'bnmlucero@uprosanluis.edu.ar','2657694443','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',85,3,0,'LUCERO','BRIAN NICOLAS MANUEL'),
+	 ('39091000',NULL,'remaldonado000@uprosanluis.edu.ar','2665255721','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'MALDONADO','RAMON EZEQUIEL');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('34142954',NULL,'flpgonzalez954@uprosanluis.edu.ar','2657207758','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',85,3,0,'PINNA GONZALEZ','FEDERICO LUIS'),
+	 ('41721987',NULL,'saponce987@uprosanluis.edu.ar','2664156020','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'PONCE','SOFIA AYELEN'),
+	 ('29835120',NULL,'fgrosales@uprosanluis.edu.ar','2657612581','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',85,3,0,'ROSALES','FEDERICO GASTÓN'),
+	 ('28489435',NULL,'fmserra435@uprosanluis.edu.ar','2657543445','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',85,3,0,'SERRA','FEDERICO MARTIN'),
+	 ('31342747',NULL,'lrtorres@uprosanluis.edu.ar','2657242090','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',85,3,0,'TORRES','LUIS RAUL'),
+	 ('12345678','1990-05-15','juan.perez@example.com','555-123-4567','$2b$12$sSIyItZSnDqDVM3.3xwKouaFKI1ixaAWxlpdte1hi4FS9yyUx0ziW',NULL,3,0,'Pérez','Juan'),
+	 ('27394448',NULL,'vsaguero@uprosanluis.edu.ar','2657-675775','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',13,3,300,'AGUERO','VERONICA SOLEDAD'),
+	 ('31479491',NULL,'mfcoria@uprosanluis.edu.ar','2657563139','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'CORIA','MARCELO FERNANDO'),
+	 ('16485867',NULL,'pmcosta867@uprosanluis.edu.ar','2657581665','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'COSTA','PABLO MARTIN'),
+	 ('37599084',NULL,'bkcuello084@uprosanluis.edu.ar','2664581174','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'CUELLO','BRENDA KATHERINA');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('35086524',NULL,'naydiaz@uprosanluis.edu.ar','2657-214925','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',28,3,0,'DIAZ','NOELIA AYELEN'),
+	 ('26497054',NULL,'fgdominguez054@uprosanluis.edu.ar','2664879065','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'DOMINGUEZ','FACUNDO GERMAN'),
+	 ('17342056',NULL,'crdominguez@uprosanluis.edu.ar','2664403340','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'DOMINGUEZ','CARLOS RUBEN'),
+	 ('27763764',NULL,'ajdprice@uprosanluis.edu.ar','2657-650852','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',32,3,0,'DOUGLAS PRICE','ANDREA JESSICA'),
+	 ('39990591',NULL,'smeseff@uprosanluis.edu.ar','2664-745618','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'ESEFF','SHEILA MARIEL'),
+	 ('20128464',NULL,'reesper464@uprosanluis.edu.ar','2657624250','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'ESPER','ROBERTO EDUARDO'),
+	 ('35314813',NULL,'mcespinosa813@uprosanluis.edu.ar','2657-605453','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',35,3,0,'ESPINOSA','MARIANA CECILIA'),
+	 ('25394656',NULL,'maestrada@uprosanluis.edu.ar','2657219738','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'ESTRADA','MARIA DE LOS ANGELES'),
+	 ('35849402',NULL,'sifernandez402@uprosanluis.edu.ar','2665029389','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'FERNANDEZ','SOLEDAD ISABEL'),
+	 ('38987889',NULL,'nafernandez889@uprosanluis.edu.ar','3517391000','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',76,3,0,'FERNANDEZ','NICOLAS ALEJANDRO');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('29621937',NULL,'mdfernandez@uprosanluis.edu.ar','2664374582','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'FERNANDEZ','MARCELO DANIEL'),
+	 ('25689827',NULL,'ggfernandez827@uprosanluis.edu.ar','2664756845','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'FERNANDEZ','GUSTAVO GABRIEL'),
+	 ('18289708',NULL,'rrflores708@uprosanluis.edu.ar','2657-512067','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'FLORES','RICARDO ROQUE'),
+	 ('42142341',NULL,'lefloriani341@uprosanluis.edu.ar','2664371524','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'FLORIANI','LUCILA ELISABETH'),
+	 ('32399533',NULL,'vifranklin533@uprosanluis.edu.ar','2664614089','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'FRANKLIN','VANESA IVANA'),
+	 ('23999246',NULL,'pcfrontera246@uprosanluis.edu.ar','2657-646418','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',37,3,0,'FRONTERA','PABLO CESAR'),
+	 ('38439194',NULL,'jegiboin@uprosanluis.edu.ar','2665067139','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'GIBOIN','JULIETA ELIZABETH'),
+	 ('38437940',NULL,'federicogimenez@uprosanluis.edu.ar','2657-227649','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',26,3,0,'GIMENEZ','FEDERICO NAHUEL'),
+	 ('30178066',NULL,'mmgiovannoni@uprosanluis.edu.ar','2657665914','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'GIOVANNONI','MARIA MERCEDES'),
+	 ('17576645',NULL,'amgodoy645@uprosanluis.edu.ar','2657-653761','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'GODOY','ANA MARIA');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('33136511',NULL,'ericamarianagodoy@uprosanluis.edu.ar','2657-667701','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'GODOY','ERICA MARIANA'),
+	 ('40485781',NULL,'jgbochetto@uprosanluis.edu.ar','2657356126','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',41,3,0,'GONZALEZ BOCHETTO','JIMENA'),
+	 ('25313443',NULL,'cjgremiger443@uprosanluis.edu.ar','2664639278','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'GREMIGER','CLAUDIO JAVIER'),
+	 ('35883895',NULL,'jegurruchaga895@uprosanluis.edu.ar','2657-287020','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',43,3,0,'GURRUCHAGA','JORGE EDGARDO'),
+	 ('34877046',NULL,'ajgutierrez046@uprosanluis.edu.ar','266-4369984','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'GUTIERREZ','ADRIAN JEREMIAS'),
+	 ('21611783',NULL,'ricardoiribarren@uprosanluis.edu.ar','2657352203','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'IRIBARREN','RICARDO'),
+	 ('31542794',NULL,'lajpasinetti@uprosanluis.edu.ar','2664576512','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'JOFRE PASINETTI','LUIS AGUSTIN'),
+	 ('22830659',NULL,'erlescano@uprosanluis.edu.ar','2664638482','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'LESCANO','ERNESTO RAUL'),
+	 ('27406843',NULL,'jnleyes843@uprosanluis.edu.ar','2664628754','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'LEYES','JAIME NICOLAS'),
+	 ('34442488',NULL,'mdleyes488@uprosanluis.edu.ar','2657-643644- 2657233288','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',46,3,0,'LEYES','MARCELA DAIANA');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('16670830',NULL,'amleyes830@uprosanluis.edu.ar','2664688360','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',82,3,0,'LEYES','AMELIA MABEL'),
+	 ('42909663',NULL,'rodrigoalejandroloyola@uprosanluis.edu.ar','2657506683','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'LOYOLA','RODRIGO ALEJANDRO'),
+	 ('26806296',NULL,'mslucero296@uprosanluis.edu.ar','2664-836514','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'LUCERO','MARTIN SEBASTIAN'),
+	 ('14771443',NULL,'ohluna443@uprosanluis.edu.ar','266-5018145','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',1,3,0,'LUNA','OSCAR HORACIO'),
+	 ('29215241',NULL,'pgluna241@uprosanluis.edu.ar','2657540794','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'LUNA','PABLO GUSTAVO'),
+	 ('31076816',NULL,'lgmaimone816@uprosanluis.edu.ar','2657-623536','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',28,3,0,'MAIMONE','LEONARDO GASTON'),
+	 ('27074548',NULL,'mcmartinez548@uprosanluis.edu.ar','2657-521228','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',51,3,0,'MARTINEZ','MARIA CECILIA'),
+	 ('25428830',NULL,'hjmartinez830@uprosanluis.edu.ar','2664899868','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'MARTINEZ','HUGO JAVIER'),
+	 ('26042604',NULL,'rhmedero@uprosanluis.edu.ar','2657657643','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'MEDERO','RICARDO HORACIO'),
+	 ('32872728',NULL,'dnmercau@uprosanluis.edu.ar','266-4305311','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',1,3,0,'MERCAU','DAVID NAPOLEON');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('27157643',NULL,'asmino@uprosanluis.edu.ar','2664821603 2664943904','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'MIÑO','ALBERTO SALVADOR'),
+	 ('26450742',NULL,'pmmjofre742@uprosanluis.edu.ar','2665008039','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'MOLINA JOFRE','PABLO MIGUEL'),
+	 ('31011541',NULL,'ndvmoran541@uprosanluis.edu.ar','2664705431','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'MORAN','NILDA DEL VALLE'),
+	 ('38751734',NULL,'lucianamoran@uprosanluis.edu.ar','2657-646952','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',53,3,0,'MORAN','LUCIANA GIMENA'),
+	 ('34877710',NULL,'vamoreno@uprosanluis.edu.ar','266-4871904','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',1,3,0,'MORENO','VANESA ALEJANDRA'),
+	 ('32740914',NULL,'morenopamela@uprosanluis.edu.ar','2664745847','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'MORENO','PAMELA SUSANA'),
+	 ('33493841',NULL,'morinigoignacio@uprosanluis.edu.ar','2665-035694','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',47,3,0,'MORINIGO','ISMAEL IGNACIO'),
+	 ('28502817',NULL,'d.murgan@uprosanluis.edu.ar','11 21850388','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',81,3,0,'MURGAN','DIEGO JAVIER'),
+	 ('36046166',NULL,'mfmunos@uprosanluis.edu.ar','2664803266','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'MUÑOZ','MARIA FERNANDADA'),
+	 ('40318993',NULL,'menunez993@uprosanluis.edu.ar','2657392051','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',73,3,0,'NUÑEZ','MARIA ESPERANZA');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('13675114',NULL,'robregon114@uprosanluis.edu.ar','2657214590','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'OBREGON','RICARDO'),
+	 ('28091219',NULL,'dojeda@uprosanluis.edu.ar','2664588045','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'OJEDA','DIEGO ARMANDO'),
+	 ('34700410',NULL,'frolguin@uprosanluis.edu.ar','2664-172801','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'OLGUIN','FATIMA ROMINA'),
+	 ('35884039',NULL,'msolguin@uprosanluis.edu.ar','2657301505','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',59,3,0,'OLGUIN','MARIANA SOLEDAD'),
+	 ('31047120',NULL,'eorozco120@uprosanluis.edu.ar','2664756996','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'OROZCO','EMANUEL'),
+	 ('23184942',NULL,'mfortiz@uprosanluis.edu.ar','2664-158268','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'ORTIZ','MARIA FERNANDA'),
+	 ('14117010',NULL,'hrotero010@uprosanluis.edu.ar','2664586872','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'OTERO','HORACIO RUBEN'),
+	 ('18206184',NULL,'laozan@uprosanluis.edu.ar','2657240116','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'OZAN','LUIS ANTONIO'),
+	 ('39090521',NULL,'mepagliero521@uprosanluis.edu.ar','2657520427','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'PAGLIERO','MARTIN EZEQUIEL'),
+	 ('39291047',NULL,'fmpatti047@uprosanluis.edu.ar','2355696592','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'PATTI','FACUNDO MANUEL');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('35545084',NULL,'jfpenalva@uprosanluis.edu.ar','2657-354342','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',26,3,0,'PENALVA','JORGE FACUNDO'),
+	 ('31936735',NULL,'akpere735@uprosanluis.edu.ar','2664968709','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',2,3,0,'PERE','ANA KARENINA'),
+	 ('28219515',NULL,'rdpereyra515@uprosanluis.edu.ar','2657621957','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'PEREYRA','RUBEN DARIO'),
+	 ('34859180',NULL,'bmperez180@uprosanluis.edu.ar','2657638212','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',74,3,0,'PEREZ','BARBARA MERCEDES'),
+	 ('39137581',NULL,'mapolverini581@uprosanluis.edu.ar','2664238406','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'POLVERINI','MATIAS AUGUSTO'),
+	 ('39090633',NULL,'eypveliz@uprosanluis.edu.ar','2657-647683','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',53,3,0,'PUEBLA VELIZ','EVELYN YANET'),
+	 ('18405614',NULL,'gjralmanza614@uprosanluis.edu.ar','2657-568053','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',61,3,0,'RAMIREZ ALMANZA','GERARDO JUAN'),
+	 ('32931099',NULL,'wmreichel099@uprosanluis.edu.ar','2657500495','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'REICHEL','WALTER MARTIN'),
+	 ('37638638',NULL,'mgrontivero@uprosanluis.edu.ar','2664-684937','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'REQUELME ONTIVERO','MATIAS GONZALO'),
+	 ('95425852',NULL,'carlosantoniorodasambia@uprosanluis.edu.ar','2657263008','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'RODAS AMBIAS','CARLOS ANTONIO');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('37638108',NULL,'jarodriguez@uprosanluis.edu.ar','2664-186873','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'RODRIGUEZ','JENNIFER ALEJANDRA'),
+	 ('31743679',NULL,'jarosa679@uprosanluis.edu.ar','2657205048','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',77,3,0,'ROSA','JORGE ALEJANDRO'),
+	 ('12920907',NULL,'alfredoernestorosales@uprosanluis.edu.ar','2664218669','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'ROSALES','ALFREDO ERNESTO'),
+	 ('39394449',NULL,'mfsalinas449@uprosanluis.edu.ar','2657265868','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'SALINAS','MARIA FLORENCIA'),
+	 ('16121685',NULL,'ybsanchez685@uprosanluis.edu.ar','2657662888','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'SANCHEZ','YLDA BEATRIZ'),
+	 ('33099145',NULL,'sanchezverdiergabriela@uprosanluis.edu.ar','2664855313','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',72,3,0,'SANCHEZ VERDIER','GABRIELA SOLEDAD'),
+	 ('31845728',NULL,'smquevedo@uprosanluis.edu.ar','2657607788','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'SANTIAGO','MANUEL QUEVEDO'),
+	 ('34130504',NULL,'mjsoloa@uprosanluis.edu.ar','2657208492','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',29,3,0,'SOLOA','MARIA JIMENA'),
+	 ('33430907',NULL,'vssombra@uprosanluis.edu.ar','2657-324115/2657-623620','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'SOMBRA','VANINA SOLEDAD'),
+	 ('37192349',NULL,'lmsombra@uprosanluis.edu.ar','2657-240959','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',6,3,0,'SOMBRA','LUCAS MATIAS');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('35179034',NULL,'ybsaguilera034@uprosanluis.edu.ar','','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',64,3,0,'SOMBRA AGUILERA','YAMILA BELEN'),
+	 ('39378176',NULL,'mdsoto@uprosanluis.edu.ar','2634222920','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'SOTO','MELISA DAIANA'),
+	 ('36046897',NULL,'johaquinajulietasurroca@uprosanluis.edu.ar','2657-604864','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',72,3,0,'SURROCA','JOHAQUINA JULIETA'),
+	 ('41096451',NULL,'letorres451@uprosanluis.edu.ar','2664972270','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',79,3,0,'TORRES','LUCAS EMANUEL'),
+	 ('37716900',NULL,'netrivelli900@uprosanluis.edu.ar','2657500169','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'TRIVELLI','NICOLAS EUGENIO'),
+	 ('17331718',NULL,'egval@uprosanluis.edu.ar','2656401351','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',1,3,0,'VAL','EDGARDO GABRIEL'),
+	 ('41750934',NULL,'jrvara934@uprosanluis.edu.ar','2664162164','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',5,3,0,'VARA','JOAQUÍN RODRIGO'),
+	 ('33964690',NULL,'mfvega@uprosanluis.edu.ar','2657-776750','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',4,3,0,'VEGA','MARIANA FERNANDA'),
+	 ('37716725',NULL,'maveneciano@uprosanluis.edu.ar','2657-609097','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',69,3,0,'VENECIANO','MICAELA ANAHI'),
+	 ('35764683',NULL,'pevera@uprosanluis.edu.ar','2664398148','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',1,3,0,'VERA','PAULA EMILIA');
+INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono,contrasena,area_id,rol_id,status,apellido,nombres) VALUES
+	 ('38748833',NULL,'jnzanon833@uprosanluis.edu.ar','2657623772','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',84,3,0,'ZANON','JORGE NICOLAS'),
+	 ('1234567333338','1990-05-15','juan.perez@example.com','555-123-4567','$2b$12$yqy9VrohcPYcxKZ.B5mlx.jk0XJvr80IFmj4.XokCHfKxP/cfiASS',NULL,3,0,'Pérez','Juan'),
+	 ('36227255',NULL,'fariasboris@uprosanluis.edu.ar','2664-276937','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',5,3,306,'FARIAS ALTAMIRANO','BORIS ANTONIO'),
+	 ('25191417',NULL,'mvaccetta417@uprosanluis.edu.ar','2657657808','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'ACCETTA','MARCELO VICENTE');
+	 
+	
+sudo docker run --name uplatform-dbserver -e POSTGRES_USER=uadmin -e POSTGRES_PASSWORD=password -e POSTGRES_DB=uplatform -p 5432:5432 -d postgres
