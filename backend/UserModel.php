@@ -65,8 +65,8 @@
 
 		public function create($param){
 			$this->db->query('
-				INSERT INTO plataforma_upro.empleados (nombres, apellido, documento, email, telefono, contrasena, area_id, rol_id) 
-				VALUES (:nombres, :apellido, :documento, :email, :telefono, :contrasena, :area, :rol)
+				INSERT INTO plataforma_upro.empleados (nombres, apellido, documento, email, telefono, contrasena, ubicacion_id, area_id, rol_id) 
+				VALUES (:nombres, :apellido, :documento, :email, :telefono, :contrasena, :ubicacion, :area, :rol)
 			');
 			$this->db->bind(':nombres',$param['nombre']);
 			$this->db->bind(':apellido',$param['apellido']);
@@ -74,6 +74,7 @@
 			$this->db->bind(':email',$param['email']);
 			$this->db->bind(':telefono',$param['telefono']);
 			$this->db->bind(':contrasena', password_hash($param['documento'], PASSWORD_BCRYPT, ['cost' => 12]));
+			$this->db->bind('ubicacion', intval($param['ubicacion']));
 			$this->db->bind(':area',intval($param['area']));
 			$this->db->bind(':rol',intval($param['rol']));
 

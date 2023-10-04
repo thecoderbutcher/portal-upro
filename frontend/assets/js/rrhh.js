@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     viewCalendar() 
     deshabilitarEmpleado()
     //registrarEmpleado()
+    procesarCsv()
     //activeButtonLateral()
     salir()
 
@@ -24,4 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
     ubicacion.addEventListener('change', () => {
         filtroFechaUbicacion(ubicacion.value, calendario.value);
     });
+
+
+    
 });

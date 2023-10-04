@@ -18,6 +18,8 @@
             </div>
         </div>
     </div>
+    <div id="toast-container"></div>
+    <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
 
     <div class="col-lg-12 col-md-12">
         <table class="table table-striped" id="dashboard-principal">
@@ -36,7 +38,7 @@
                     foreach ($users['users'] as $user){
                         $apellidos = explode(" ",$user->apellido); 
                         $nombres   = explode(" ",$user->nombres);
-                        $button = $user->status == -1 ? "<button style='width:34px; height:34px; padding: 0' class='material-icons btn btn-success action-enable' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Activar a $apellidos[0]'>restart_alt</button>" : "<button style='width:34px; height:34px; padding: 0' class='material-icons btn btn-warning action-disable' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Suspender a $apellidos[0]'>warning</button>";
+                        $button = $user->status == -1 ? "<button style='width:34px; height:34px; padding: 0' class='btn btn-success action-enable' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Habilitar a $apellidos[0]'><span class='material-icons'>restart_alt</span></button>" : "<button style='width:34px; height:34px; padding: 0' class='btn btn-warning action-disable' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Suspender a $apellidos[0]'><span class='material-icons'>warning</span></button>";
                         echo "
                             <tr>
                                 <th class='text-center' scope='row'>$user->documento</th>
@@ -45,7 +47,7 @@
                                 <td class='text-center'>$user->telefono</td>
                                 <td>$user->area_nombre</td>
                                 <td>
-                                    <button style='width:34px; height:34px; padding: 0' class='material-icons btn btn-secondary' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar a $apellidos[0]'>edit</button>
+                                    <button style='width:34px; height:34px; padding: 0' class='btn btn-secondary' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar a $apellidos[0]'><span class='material-icons' style='font-size: 18px'>edit</span></button>
                                     $button
                                 </td>
                             </tr>

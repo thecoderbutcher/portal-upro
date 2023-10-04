@@ -1,26 +1,26 @@
 <!-- Modal Carga Masiva -->
-<div class="modal fade" id="carga-masiva" ddata-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="carga-masiva" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Carga masiva de empleados</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-            <form class="">
+            </div>
+            <form enctype="multipart/form-data" name="form-carga-masiva">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="cvsFile" class="form-label">Seleccionar archivo .csv</label>
-                        <input class="form-control mb-2" type="file" id="cvsFile" accept=".cvs" style="content: hola">
+                        <input class="form-control mb-2" type="file" id="csvFile" name="csv_file" accept=".csv" required>
                         <small>Los archivos .csv deben respetar el formato pre establecido</small>
                     </div> 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Subir</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
+                    <button type="submit" id="cm-btn" class="btn btn-primary" data-bs-dismiss="modal">Subir</button>
                 </div>
             </form>
         </div>
-    </div>
+    </div> 
 </div> 
 
 <!-- Modal Create User-->
@@ -65,19 +65,6 @@
                             ?>
                         </select>
                         <label for="floatingInput">Area</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <select name="secretaria" class="form-select" aria-label="Default select example">
-                            <option selected disabled>Seleccionar secretaria</option>
-                            <?php 
-                                foreach($users['secretarias'] as $secretaria){
-                                    echo "
-                                        <option value='$secretaria->id'>$secretaria->nombre</option>
-                                    ";
-                                }
-                            ?>
-                        </select>
-                        <label for="floatingInput">Secretaria</label>
                     </div>
                     <div class="form-floating mb-3">
                         <select name="area" class="form-select" aria-label="Default select example">

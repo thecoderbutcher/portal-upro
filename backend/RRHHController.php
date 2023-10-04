@@ -49,8 +49,8 @@
 							<td>$result->telefono</td>
 							<td>$result->area</td>
 							<td>
-								<button style='width:34px; height:34px; padding: 0' class='material-icons btn btn-secondary' data-user='$result->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar a $apellidos[0]'>edit</button>
-								<button style='width:34px; height:34px; padding: 0' class='material-icons btn btn-warning' data-bs-toggle='tooltip' data-bs-placement='top' title='Suspender a $apellidos[0]'>warning</button>
+								<button style='width:34px; height:34px; padding: 0' class='btn btn-secondary' data-user='$result->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar a $apellidos[0]'><span class='material-icons'>edit</span></button>
+								<button style='width:34px; height:34px; padding: 0' class='material-icons btn btn-warning' data-bs-toggle='tooltip' data-bs-placement='top' title='Suspender a $apellidos[0]'><span class='material-icons'>warning</span></button>
 							</td>
 						</tr>
 						";
@@ -64,7 +64,56 @@
 		public function enableUser($documento){
 			$this->userModel->enableUser(intval($documento));
 		}
-		public function searchRegister($value){
+
+		public function cargaMasiva($csv){
+			# Quito la cabecera
+			array_shift($csv);
+						
+			# Recorro el csv
+			foreach($csv as $element){
+				$empleado = explode(",", $element);
+				$param = [
+					'documento' => $empleado[0],
+					'apellido' => $empleado[1],
+					'nombre' => $empleado[2],
+					#'fecha_nacimiento' => $empleado[3],
+					'email' => $empleado[4],
+					'telefono' => $empleado[5],
+					'ubicacion' => $empleado[6],
+					'area' => $empleado[7],
+					'rol' => 3,
+				];
+				if($this->userModel->create($param)){
+					$text = "
+						<div class='toast align-items-center text-bg-success border-0 fade mb-1' role='alert' aria-live='assertive' aria-atomic='true'>
+							<div class='d-flex'>
+								<div class='toast-body'>
+									<span class='material-icons'>check</span> <strong>$empleado[1], $empleado[2]</strong> agregado con éxito 
+								</div>
+								<button type='button' class='btn-close btn-close-white me-2 m-auto' data-bs-dismiss='toast' aria-label='Close'></button>
+							</div>
+						</div>
+					";
+				}
+				else{
+					$text = "
+						<div class='toast align-items-center text-bg-danger border-0 fade mb-1' role='alert' aria-live='assertive' aria-atomic='true'>
+							<div class='d-flex'>
+								<div class='toast-body'>
+									<span class='material-icons'>close</span> <strong>$empleado[1], $empleado[2]</strong> no se puedo agregar
+								</div>
+							<button type='button' class='btn-close btn-close-white me-2 m-auto' data-bs-dismiss='toast' aria-label='Close'></button>
+							</div>
+						</div>
+					";
+				}
+				echo $text;
+			}
+
+
+		}
+
+		public function searchRegister($value){#
 			
 		}
 

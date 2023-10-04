@@ -163,4 +163,39 @@ const filtroFechaUbicacion = (ubicacion, fecha) => {
     })
 }
 
+const procesarCsv = () => {
+    const form = document.forms['form-carga-masiva']
+    form.addEventListener('submit', e =>{
+        e.preventDefault();
 
+        const data   = document.querySelector('#csvFile').files[0];
+        const modal  = document.querySelector('#carga-masiva')
+        const reader = new FileReader()
+        
+        reader.onload = function(event){
+            const elements = event.target.result;
+            cargamasiva(elements);
+        }
+        reader.readAsText(data);
+        modal.addEventListener('hidden.bs.modal', event => {
+            const toast = new bootstrap.Toast('.toast')
+            toast.show();
+        })
+    })
+}
+
+const cargamasiva = (data) => {
+    const csvElements = data.split(/\r?\n|\r/);
+    axios({
+        method: 'post', 
+        url: apiUrl,
+        data: {
+            action: 'cargaMasiva',
+            csv_file: csvElements
+        }
+    })
+    .then(function(response){
+        const toastContainer = document.querySelector('#toast-container')
+        toastContainer.insertAdjacentHTML('afterbegin',response.data)
+    }) 
+}    
