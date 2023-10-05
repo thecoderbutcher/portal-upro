@@ -19,45 +19,39 @@
             <tr>
                 <th scope="col">DNI</th>
                 <th scope="col" class="text-start">EMPLEADO</th> 
-                <!-- <th scope="col" class="text-start hidden">EMAIL</th>
-                <th scope="col" class="hidden">TELÉFONO</th> -->
                 <th scope="col">ACCION</th>
-                <!-- <th scope="col">OBSERVACIONES</th> -->
             </tr>
         </thead>
         <tbody id="security-tbody" data-registrador='<?php echo $_SESSION["userdoc"];?>'> 
             <?php 
                 foreach ($users['users'] as $user){
-                    $apellidos = explode(" ",$user->apellido); 
-                    $nombres   = explode(" ",$user->nombres);
-                    echo "
-                        <tr>
-                            <th class='text-center' scope='row'>$user->documento</th>
-                            <td data-bs-toggle='popover' title='Teléfono' data-bs-content='$user->telefono'>$apellidos[0] <span class='hidden'>$apellidos[1]</span>, $nombres[0] <span class='hidden'>$nombres[1]</span></td>
-                    "; 
-                    /* <td class='hidden'>$user->email</td>  
-                    <td class='text-center hidden'>$user->telefono</td> */
-                    //Data status 0 para cuando no se ha registrado entrada, != 0 para cuando se debe registrar salida, de este modo modificamos la tabla con el id status que se debe registrar al registrar una entrada
-                    if($user->status == 0){
+                    if($user->status != -1){
+                        $apellidos = explode(" ",$user->apellido); 
+                        $nombres   = explode(" ",$user->nombres);
                         echo "
-                            <td class='text-center'>
-                                <button class='io-actions btn btn-primary entrada' id='registrar-entrada' data-empleado='$user->documento' data-registrador='$_SESSION[userdoc]' data-url='".URL_ROUTE."Inouts/' data-action='registrarEntrada' data-status='0' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar entrada'>
-                                    Entrada
-                                </button>
-                            </td>";
+                            <tr>
+                                <th class='text-center' scope='row'>$user->documento</th>
+                                <td data-bs-toggle='popover' title='Teléfono' data-bs-content='$user->telefono'>$apellidos[0] <span class='hidden'>$apellidos[1]</span>, $nombres[0] <span class='hidden'>$nombres[1]</span></td>
+                        "; 
+                        //Data status 0 para cuando no se ha registrado entrada, != 0 para cuando se debe registrar salida, de este modo modificamos la tabla con el id status que se debe registrar al registrar una entrada
+                        if($user->status == 0){
+                            echo "
+                                <td class='text-center'>
+                                    <button class='io-actions btn btn-primary entrada' id='registrar-entrada' data-empleado='$user->documento' data-registrador='$_SESSION[userdoc]' data-url='".URL_ROUTE."Inouts/' data-action='registrarEntrada' data-status='0' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar entrada'>
+                                        Entrada
+                                    </button>
+                                </td>";
+                        }
+                        else{
+                            echo "
+                                <td class='text-center'>
+                                    <button class='io-actions btn btn-primary' id='registrar-salida' data-empleado='$user->documento' data-registrador='$_SESSION[userdoc]' data-url='".URL_ROUTE."Inouts/' data-action='registrarSalida' data-status='$user->status' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar salida'>
+                                        Salida
+                                    </button>
+                                </td>";
+                        }	
+                        echo "</tr>";
                     }
-                    else{
-                        echo "
-                            <td class='text-center'>
-                                <button class='io-actions btn btn-primary' id='registrar-salida' data-empleado='$user->documento' data-registrador='$_SESSION[userdoc]' data-url='".URL_ROUTE."Inouts/' data-action='registrarSalida' data-status='$user->status' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar salida'>
-                                    Salida
-                                </button>
-                            </td>";
-                    }		
-                    /* echo "<td class='text-center'><span class='material-icons' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Agregar observaciones'>post_add</span></td>
-                        </tr> 
-                    ";  */
-                    echo "</tr>";
                 }
             ?>
         </tbody>

@@ -41,20 +41,22 @@
 		}
         public function search($value){  
 			foreach ($this->userModel->searchUser($value) as $result){
-				$apellidos = explode(" ",$result->apellido); 
-                $nombres   = explode(" ",$result->nombres);
-				$text = "<tr>
-							<th scope='row' class='text-center'>$result->documento</th>
-							<td>$apellidos[0] <span class='hidden'>$apellidos[1]</span>, $nombres[0] <span class='hidden'>$nombres[1]</span></td></td>
-						";
-				
-				if($result->status == 0){
-					$text .= "<td class='text-center'><button class='io-actions btn btn-primary entrada' id='registrar-entrada' data-empleado='$result->documento' data-registrador='$_SESSION[userdoc]' data-url='".URL_ROUTE."Inouts/' data-action='registrarEntrada' data-status='0' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar entrada'>Entrada</button></td></tr>"; 
+				if($result->status != -1){
+					$apellidos = explode(" ",$result->apellido); 
+					$nombres   = explode(" ",$result->nombres);
+					$text = "<tr>
+								<th scope='row' class='text-center'>$result->documento</th>
+								<td>$apellidos[0] <span class='hidden'>$apellidos[1]</span>, $nombres[0] <span class='hidden'>$nombres[1]</span></td></td>
+							";
+					
+					if($result->status == 0){
+						$text .= "<td class='text-center'><button class='io-actions btn btn-primary entrada' id='registrar-entrada' data-empleado='$result->documento' data-registrador='$_SESSION[userdoc]' data-url='".URL_ROUTE."Inouts/' data-action='registrarEntrada' data-status='0' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar entrada'>Entrada</button></td></tr>"; 
+					}
+					else{
+						$text .= "<td class='text-center'><button class='io-actions btn btn-primary' id='registrar-salida' data-empleado='$result->documento' data-registrador='$_SESSION[userdoc]' data-url='".URL_ROUTE."Inouts/' data-action='registrarSalida' data-status='$result->status' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar salida'>Salida</button></td></tr>";
+					} 
+					echo $text;
 				}
-				else{
-					$text .= "<td class='text-center'><button class='io-actions btn btn-primary' id='registrar-salida' data-empleado='$result->documento' data-registrador='$_SESSION[userdoc]' data-url='".URL_ROUTE."Inouts/' data-action='registrarSalida' data-status='$result->status' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar salida'>Salida</button></td></tr>";
-				} 
-				echo $text;
 			}  
 		}
     }

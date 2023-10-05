@@ -48,6 +48,9 @@
             elseif($_POST['action'] === 'deshabilitar'){
                 $rrhh->disableUser($_POST['documento']);
             }
+            elseif($_POST['action'] === 'habilitar'){
+                $rrhh->enableUser($_POST['documento']);
+            }
             elseif($_POST['action'] === 'salir'){
                 $auth->logout(); 
             }

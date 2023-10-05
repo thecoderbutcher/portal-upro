@@ -125,21 +125,38 @@ const viewCalendar = () => {
     })
 }
 
-const deshabilitarEmpleado = () => { 
-    const botonesDeshabilitar = document.querySelectorAll(".action-disable");
+const cambiarEstadoEmpleado = () => { 
+    const botonesDeshabilitar = document.querySelectorAll(".status-change");
 
     botonesDeshabilitar.forEach((boton) => {
-        boton.addEventListener("click", function() {
+        boton.addEventListener("click", function (e) {
+            const actionSelected = this.getAttribute("data-action")
+            const btnCambiarEstado =  e.target.parentNode
+        
             axios({
                 method: 'post',
                 url: apiUrl,
                 data: {
-                    action: 'deshabilitar',
+                    action: actionSelected,
                     documento: this.getAttribute("data-user")
                 }
             })
             .then(function(response){
-                console.log("deshabilitado")
+                
+                if(actionSelected === 'deshabilitar'){
+                    e.target.textContent = 'restart_alt';
+                    btnCambiarEstado.setAttribute('data-action', 'habilitar');
+                    btnCambiarEstado.classList.remove('btn-warning')
+                    btnCambiarEstado.classList.add('btn-success')
+                    btnCambiarEstado.setAttribute('title', (btnCambiarEstado.getAttribute('title')).replace('Suspender','Habilitar'))
+                }
+                else{
+                    e.target.textContent = 'warning';
+                    btnCambiarEstado.setAttribute('data-action', 'deshabilitar');
+                    btnCambiarEstado.classList.remove('btn-success')
+                    btnCambiarEstado.classList.add('btn-warning')
+                    btnCambiarEstado.setAttribute('title', (btnCambiarEstado.getAttribute('title')).replace('Habilitar','Suspender'))
+                }
             })
         });
     });
