@@ -42,15 +42,15 @@
 			foreach ($this->userModel->searchUser($value) as $result){
 				$apellidos = explode(" ",$result->apellido); 
                 $nombres   = explode(" ",$result->nombres);
-				$button = $result->status == -1 ? "<button style='width:34px; height:34px; padding: 0' class='btn btn-success action-enable' data-result='$result->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Habilitar a $apellidos[0]'><span class='material-icons'>restart_alt</span></button>" : "<button style='width:34px; height:34px; padding: 0' class='btn btn-warning action-disable' data-result='$result->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Suspender a $apellidos[0]'><span class='material-icons'>warning</span></button>";
+				$button = $result->status == -1 ? "<button class='btn-icons btn btn-success status-change' data-action='habilitar' data-user='$result->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Habilitar a $apellidos[0]'><span class='material-icons'>restart_alt</span></button>" : "<button class='btn-icons btn btn-warning status-change' data-action='deshabilitar' data-user='$result->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Suspender a $apellidos[0]'><span class='material-icons'>warning</span></button>";
 				$text = "<tr>
 							<th scope='row' class='text-center'>$result->documento</th>
 							<td>$apellidos[0] <span class='hidden'>$apellidos[1]</span>, $nombres[0] <span class='hidden'>$nombres[1]</span></td>
 							<td>$result->email</td>	
-							<td>$result->telefono</td>
-							<td>$result->area</td>
-							<td>
-								<button style='width:34px; height:34px; padding: 0' class='btn btn-secondary' data-user='$result->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar a $apellidos[0]'><span class='material-icons' style='font-size: 18px'>edit</span></button>
+							<td class='text-center'>$result->telefono</td>
+							<td class='text-center'>$result->area</td>
+							<td class='text-center'>
+								<button class='btn-icons btn btn-secondary' data-user='$result->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar a $apellidos[0]'><span class='material-icons'>edit</span></button>
 								$button
 							</td>
 						</tr>

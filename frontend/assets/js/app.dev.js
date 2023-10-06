@@ -92,24 +92,6 @@ const registerIO = () => {
     })
 }
 
-const buscarEmpleado = () => {
-    empleado = document.querySelector('.buscar-empleado')
-    empleado.addEventListener('keyup', function(){ 
-        containerResult = this.getAttribute('data-result'); 
-        axios({
-            method: 'post',
-            url: apiUrl,
-            data:{
-                action: this.getAttribute('data-action'),
-                value: this.value
-            }
-        })
-        .then(function(response){ 
-            document.querySelector(containerResult).innerHTML = response.data
-            registerIO()
-        })
-    })
-}
 const viewlocation = () => {
     btnLocation = document.querySelector('#btn-location');
     btnLocation.addEventListener('click', () => {
@@ -161,7 +143,25 @@ const cambiarEstadoEmpleado = () => {
         });
     });
 }
-
+const buscarEmpleado = () => {
+    empleado = document.querySelector('.buscar-empleado')
+    empleado.addEventListener('keyup', function(){ 
+        containerResult = this.getAttribute('data-result'); 
+        axios({
+            method: 'post',
+            url: apiUrl,
+            data:{
+                action: this.getAttribute('data-action'),
+                value: this.value
+            }
+        })
+        .then(function(response){ 
+            document.querySelector(containerResult).innerHTML = response.data
+            registerIO();
+            cambiarEstadoEmpleado()
+        })
+    })
+}
 const filtroFechaUbicacion = (ubicacion, fecha) => {
     axios({
         method: 'post',

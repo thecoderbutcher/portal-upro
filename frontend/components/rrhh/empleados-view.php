@@ -37,7 +37,7 @@
                     foreach ($users['users'] as $user){
                         $apellidos = explode(" ",$user->apellido); 
                         $nombres   = explode(" ",$user->nombres);
-                        $button = $user->status == -1 ? "<button style='width:34px; height:34px; padding: 0' class='btn btn-success status-change' data-action='habilitar' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Habilitar a $apellidos[0]'><span class='material-icons'>restart_alt</span></button>" : "<button style='width:34px; height:34px; padding: 0' class='btn btn-warning status-change' data-action='deshabilitar' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Suspender a $apellidos[0]'><span class='material-icons'>warning</span></button>";
+                        $button = $user->status == -1 ? "<button class='btn-icons btn btn-success status-change' data-action='habilitar' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Habilitar a $apellidos[0]'><span class='material-icons'>restart_alt</span></button>" : "<button class='btn-icons btn btn-warning status-change' data-action='deshabilitar' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Suspender a $apellidos[0]'><span class='material-icons'>warning</span></button>";
                         echo "
                             <tr>
                                 <th class='text-center' scope='row'>$user->documento</th>
@@ -46,7 +46,7 @@
                                 <td class='text-center'>$user->telefono</td>
                                 <td>$user->area_nombre</td>
                                 <td>
-                                    <button style='width:34px; height:34px; padding: 0' class='btn btn-secondary' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar a $apellidos[0]'><span class='material-icons' style='font-size: 18px'>edit</span></button>
+                                    <button class='btn-icons btn btn-secondary' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar a $apellidos[0]'><span class='material-icons' style='font-size: 18px'>edit</span></button>
                                     $button
                                 </td>
                             </tr>
