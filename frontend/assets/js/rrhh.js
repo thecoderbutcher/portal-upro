@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     viewlocation()
     viewCalendar() 
     cambiarEstadoEmpleado()
-    //registrarEmpleado()
+    registrarEmpleado()
     procesarCsv()
     //activeButtonLateral()
     salir()

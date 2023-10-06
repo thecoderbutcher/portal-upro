@@ -17,6 +17,18 @@
             if($_POST['action'] === 'search-esecurity'){
                 $security->search($_POST['value']); 
             }
+            elseif($_POST['action'] === 'create'){
+                $param = [
+                    'nombre'    => $_POST['nombre'],
+                    'apellido'  => $_POST['apellido'],
+                    'documento' => $_POST['documento'],
+                    'email'     => $_POST['email'],
+                    'telefono'  => $_POST['telefono'],
+                    'ubicacion' => $_POST['ubicacion'],
+                    'area'      => $_POST['area']
+                ];
+                $rrhh->agregarEmpleado($param);
+            }
             elseif($_POST['action'] === 'cargaMasiva'){  
                 $rrhh->cargaMasiva($_POST['csv_file']);
             }

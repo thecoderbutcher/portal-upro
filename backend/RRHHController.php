@@ -37,7 +37,9 @@
 			}
 			echo $text;
 		}
-
+		public function agregarEmpleado($param){
+			echo $this->userModel->create($param);
+		}
 		public function search($value){  
 			foreach ($this->userModel->searchUser($value) as $result){
 				$apellidos = explode(" ",$result->apellido); 

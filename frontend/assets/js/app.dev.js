@@ -30,31 +30,31 @@ const registrarEmpleado = () => {
         e.preventDefault()
         axios({
             method:'post',
-            url: form.getAttribute('data-url'),
+            url: apiUrl,
             data:{
+                action: 'create',
                 nombre: form.nombres.value,
                 apellido: form.apellido.value,
                 documento: form.documento.value,
                 email: form.email.value,
                 telefono: form.telefono.value,
                 area: form.area.value,
-                rol:form.rol.value
+                ubicacion: form.ubicacion.value
             }
         })
         .then(function(response){
-            table = document.querySelector('#users-table').children
+            table = document.querySelector('#empleados-tbody').children
             const newuser = `
                 <tr>
                     <th scope='row'>${form.documento.value}</th>
-                    <td>${form.apellido.value}</td>
-                    <td>${form.nombres.value}</td>
-                    <td>${form.telefono.value}</td>
-                    <td>${form.email.value}</td>
+                    <td>${form.apellido.value}, ${form.nombres.value}</td>
+                    <td class='text-center'>${form.email.value}</td>
+                    <td class='text-center'>${form.telefono.value}</td>
                     <td>${form.area.options[(form.area).selectedIndex].textContent}</td>
                 </tr> 
             `
             table[1].insertAdjacentHTML("beforebegin",newuser)
-        })
+        }) 
     })
 }
 

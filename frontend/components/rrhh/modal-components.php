@@ -31,7 +31,7 @@
                 <h5 class="modal-title" id="staticBackdropLabel">Agregar empleado</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="post" name="agregar-empleado" data-url="<?php echo URL_ROUTE ?>users/store" >
+            <form name="agregar-empleado">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
                         <input type="text" name="apellido" class="form-control" id="in-apellidos" placeholder="Ingresar apellidos" required>
@@ -67,7 +67,7 @@
                         <label for="floatingInput">Area</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select name="area" class="form-select" aria-label="Default select example">
+                        <select name="ubicacion" class="form-select" aria-label="Default select example">
                             <option selected disabled>Seleccionar ubicación</option>
                             <?php 
                                 foreach($users['ubicacion'] as $ubicacion){
@@ -81,7 +81,7 @@
                     </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="save-user" name="save-user">Guardar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modasl" id="save-user" name="save-user">Guardar</button>
                 </div>
             </form>
         </div>

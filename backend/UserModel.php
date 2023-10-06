@@ -74,9 +74,9 @@
 			$this->db->bind(':email',$param['email']);
 			$this->db->bind(':telefono',$param['telefono']);
 			$this->db->bind(':contrasena', password_hash($param['documento'], PASSWORD_BCRYPT, ['cost' => 12]));
-			$this->db->bind('ubicacion', intval($param['ubicacion']));
+			$this->db->bind(':ubicacion', intval($param['ubicacion']));
 			$this->db->bind(':area',intval($param['area']));
-			$this->db->bind(':rol',intval($param['rol']));
+			$this->db->bind(':rol',intval(3));
 
 			return $this->db->execute();
 		}
