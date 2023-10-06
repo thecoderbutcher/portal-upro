@@ -3,7 +3,7 @@
     #define('URL_ROUTE', 'http://portal.uprosanluis.edu.ar/');
     
     spl_autoload_register(function($className){require_once 'backend/' . $className . '.php';}); 
-
+# note: just call method from controller and the controllers make all control and verification. Make correction
     $auth     = new AuthController; 
     $rrhh     = new RRHHController;
     $security = new SecurityController;

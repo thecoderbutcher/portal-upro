@@ -18,7 +18,9 @@
 			];
 			return $param;
         }
-		
+		public function getUser($documento){
+			
+		}
 		public function registros(){
 			$ubicacion = ($_POST['location'] != "") ? $_POST['location'] : "Villa Mercedes"; 
             $fecha     = ($_POST['date'] != "") ? $_POST['date'] : date("Y-m-d");

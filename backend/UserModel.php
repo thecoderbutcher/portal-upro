@@ -25,6 +25,17 @@
 			return $this->db->getRecords();
 		}
 
+		public function getUser($documento){
+			$this->db->query('
+				SELECT empleado.documento as "documento", empleado.apellido as "apellido", empleado.nombres as "nombres", empleado.telefono as "telefono", empleado.email as "email", empleado.status as "status", areas.nombre as "area_nombre"
+				FROM plataforma_upro.empleados empleado
+				JOIN plataforma_upro.areas areas on areas.id = empleado.area_id 
+				WHERE empleado.documento = :documento
+			'); 
+			$this->db->bind(':documento', $documento);
+			return $this->db->getRecord();
+		}
+
 		public function getUserId($documento){
 			$this->db->query('SELECT empleado.id, empleado.documento FROM plataforma_upro.empleados empleado WHERE empleado.documento = :documento');
 			$this->db->bind(':documento', $documento);
