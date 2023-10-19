@@ -79,6 +79,7 @@
                         </select>
                         <label for="floatingInput">Ubicación</label>
                     </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary" data-bs-dismiss="modasl" id="save-user" name="save-user">Guardar</button>
@@ -88,12 +89,12 @@
     </div>
 </div>
 
-<!-- Modal Edit User-->
-<div class="modal fade" id="agregar-empleado" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal Editar User-->
+<div class="modal fade" id="editar-empleado" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar empleado</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Editar datos del empleado</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form name="agregar-empleado">
@@ -144,9 +145,10 @@
                         </select>
                         <label for="floatingInput">Ubicación</label>
                     </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modasl" id="save-user" name="save-user">Guardar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modasl" id="save-user" name="save-user">Actualizar</button>
                 </div>
             </form>
         </div>

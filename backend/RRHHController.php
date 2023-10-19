@@ -19,7 +19,7 @@
 			return $param;
         }
 		public function getUser($documento){
-			
+
 		}
 		public function registros(){
 			$ubicacion = ($_POST['location'] != "") ? $_POST['location'] : "Villa Mercedes"; 
@@ -29,11 +29,11 @@
 				$entrada = (explode(" ",$result->r_entrada))[1];
 				$salida = (explode(" ",$result->r_salida))[1];
 				$text .= "
-					<tr>
+					<tr class='entrada-salida-empleados'>
 						<th scope='row'>$result->e_documento</th>
 						<td>$result->e_apellido, $result->e_nombres</td>
-						<td class='text-center'>$entrada</td>
-						<td class='text-center'>$salida</td>
+						<td class='text-center'>$entrada <span class='material-icons'>badge</span></td>
+						<td class='text-center'>$salida <span class='material-icons'>badge</span></td>
 					</tr>
 				";
 			}

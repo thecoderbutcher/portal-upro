@@ -25,7 +25,17 @@ document.addEventListener("DOMContentLoaded", function() {
     ubicacion.addEventListener('change', () => {
         filtroFechaUbicacion(ubicacion.value, calendario.value);
     });
+    btnExport = document.querySelector('#btn-export')
 
+    btnExport.addEventListener('click', ()=>{
+        users = document.querySelectorAll('.entrada-salida-empleados')
+        result = [];
+        for(const user of users){
+            result.push(user.innerText.split('\t'))
+        }
+        console.log(result)
 
+    })
+    
     
 });

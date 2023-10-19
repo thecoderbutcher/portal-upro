@@ -11,7 +11,7 @@
         <div class="col-xs-12 col-sm-12 col-md-6 mb-3 order-sm-last order-md-first mt-1">
             <button class="btn btn-primary" id="btn-location"><span class="material-icons">location_on</span></button> 
             <button class="btn btn-primary" id="btn-calendar"><span class="material-icons filter">calendar_month</span></button>
-            <button class="btn btn-primary" id="btn-calendar"><span class="material-icons filter">cloud_download</span></button>
+            <button class="btn btn-primary" id="btn-export"><span class="material-icons filter">cloud_download</span></button>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 order-first order-md-last mb-3">
             <div class="input-group"> 
@@ -62,7 +62,7 @@
                         $entrada   = (explode(" ",$user->r_entrada))[1];
                         $salida    = (explode(" ",$user->r_salida))[1];
                         echo "
-                            <tr>
+                            <tr class='entrada-salida-empleados'>
                                 <th class='text-center' scope='row'>$user->e_documento</th>
                                 <td class=''><span>$apellidos[0]</span><span class='hidden'> $apellidos[1]</span>, <span> $nombres[0]</span><span class='hidden'> $nombres[1]</span></td> 
                                 <td class='text-center'>$entrada</td>

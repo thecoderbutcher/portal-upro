@@ -56,7 +56,7 @@
 				$entrada = (explode(" ",$result->r_entrada))[1];
 				$salida = (explode(" ",$result->r_salida))[1];
 				$text .= "
-					<tr>
+					<tr class='entrada-salida-empleados'>
 						<th scope='row'>$result->e_documento</th>
 						<td>$result->e_apellido, $result->e_nombres</td>
 						<td class='text-center'>$entrada</td>

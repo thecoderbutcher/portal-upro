@@ -593,5 +593,46 @@ INSERT INTO plataforma_upro.empleados (documento,fecha_nacimiento,email,telefono
 	 ('36227255',NULL,'fariasboris@uprosanluis.edu.ar','2664-276937','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',5,3,306,'FARIAS ALTAMIRANO','BORIS ANTONIO'),
 	 ('25191417',NULL,'mvaccetta417@uprosanluis.edu.ar','2657657808','$2y$12$yQngBSmaQdaNTGHPaFGvu.9w0.LCAkUBUhElUGuU.c82Q78iw4pD6',83,3,0,'ACCETTA','MARCELO VICENTE');
 	 
+
+
+
+CREATE TABLE plataforma_upro.eventos(
+	id serial4 NOT NULL,
+	nombre varchar(255) NULL, 
+	fecha timestamp NULL,
+	cantidad_filas int4 not null,
+	cantidad_asientos int4 not null,
+	ubicacion_id int4 NULL DEFAULT 1,
+	CONSTRAINT eventos_pkey PRIMARY KEY (id)
+);
+ALTER TABLE plataforma_upro.eventos ADD CONSTRAINT eventos_ubicacion_id_fkey FOREIGN KEY (ubicacion_id) REFERENCES plataforma_upro.ubicaciones(id);
+
+CREATE TABLE plataforma_upro.eventos_asientos(
+	id serial4 NOT NULL,
+	nombre varchar(4) NULL, 
+	eventos_id int4 NULL DEFAULT 1,
+	CONSTRAINT eventos_asiento_pkey PRIMARY KEY (id)
+); 
+
+CREATE TABLE plataforma_upro.eventos_fila (
+	id serial4 NOT NULL,
+	nombre varchar(4) NULL,  
+	CONSTRAINT eventos_fila_pkey PRIMARY KEY (id)
+); 
+
+CREATE TABLE plataforma_upro.eventos_posicion (
+	id serial4 NOT NULL,
+	status int4 NOT null default 0,
+	asiento_id int4 NULL,
+	fila_id int4 NULL,
+	egresado_id int4 NULL,
+	evento_id int4 NULL,
+	CONSTRAINT eventos_posicion_pkey PRIMARY KEY (id)
+);
+ALTER TABLE plataforma_upro.eventos_posicion ADD CONSTRAINT empleados_asiento_id_fkey FOREIGN KEY (asiento_id) REFERENCES plataforma_upro.eventos_asientos(id);
+ALTER TABLE plataforma_upro.eventos_posicion ADD CONSTRAINT empleados_fila_id_fkey FOREIGN KEY (fila_id) REFERENCES plataforma_upro.eventos_fila(id);
+ALTER TABLE plataforma_upro.eventos_posicion ADD CONSTRAINT empleados_egresado_id_fkey FOREIGN KEY (egresado_id) REFERENCES plataforma_upro.egresados(id);
+ALTER TABLE plataforma_upro.eventos_posicion ADD CONSTRAINT empleados_evento_id_fkey FOREIGN KEY (evento_id) REFERENCES plataforma_upro.eventos(id);
+
 	
 sudo docker run --name uplatform-dbserver -e POSTGRES_USER=uadmin -e POSTGRES_PASSWORD=password -e POSTGRES_DB=uplatform -p 5432:5432 -d postgres

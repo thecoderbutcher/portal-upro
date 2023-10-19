@@ -57,6 +57,13 @@ const registrarEmpleado = () => {
         }) 
     })
 }
+const modalEditarEmpleado = () => {
+    modal = document.querySelector('#editar-empleado');
+    btnEditar = document.querySelector('')
+    modal.addEventListener('show.bs.modal', () => {
+        alert("Holis")
+    });
+}
 
 const registerIO = () => {
     const actions = document.querySelectorAll('.io-actions')

@@ -46,7 +46,7 @@
                                 <td class='text-center'>$user->telefono</td>
                                 <td>$user->area_nombre</td>
                                 <td>
-                                    <button class='btn-icons btn btn-secondary' data-action='' data-user='$user->documento' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar a $apellidos[0]'><span class='material-icons' style='font-size: 18px'>edit</span></button>
+                                    <button class='btn-icons btn btn-secondary' data-action='' data-user='$user->documento' data-bs-toggle='modal' data-bs-target='#editar-empleado' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar a $apellidos[0]'><span class='material-icons' style='font-size: 18px'>edit</span></button>
                                     $button
                                 </td>
                             </tr>

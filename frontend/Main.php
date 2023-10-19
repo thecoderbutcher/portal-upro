@@ -20,6 +20,12 @@
             elseif ($_SESSION['rol'] == 4){
                 require_once 'components/alumnos/dashboard.php';
             }
+            elseif ($_SESSION['rol'] == 6){
+                require_once 'components/eventos/acreditacion/dashboard.php';
+            }
+            elseif ($_SESSION['rol'] == 7){
+                require_once 'components/eventos/administracion/dashboard.php';
+            }
             require_once 'components/footer.php'; 
         }
 
