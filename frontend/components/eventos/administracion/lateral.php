@@ -4,13 +4,13 @@
 <button class="nav-link d-flex justify-content-between align-items-start" id="cargar-egresados-tab" data-bs-toggle="pill" data-bs-target="#v-pills-cargar-egresados" type="button" role="tab">
     <div class="ms-2 me-auto"><span class="material-icons">upload</span> Cargar Egresados</div>
 </button>
-<button class="nav-link d-flex justify-content-between align-items-start" id="entradasalida-tab" data-bs-toggle="pill" data-bs-target="#v-pills-entradasalida" type="button" role="tab">
+<button class="nav-link d-flex justify-content-between align-items-start" id="entradasalida-tab" data-bs-toggle="pill" data-bs-target="#v-pills-confirmar-egresados" type="button" role="tab">
     <div class="ms-2 me-auto"><span class="material-icons">how_to_reg</span> Confirmar Egresados</div>
 </button>
-<button class="nav-link d-flex justify-content-between align-items-start" id="recibos-tab" data-bs-toggle="pill" data-bs-target="#v-pills-recibos" type="button" role="tab">
+<button class="nav-link d-flex justify-content-between align-items-start" id="recibos-tab" data-bs-toggle="pill" data-bs-target="#v-pills-ajustes-asientos" type="button" role="tab">
     <div class="ms-2 me-auto"><span class="material-icons">tune</span> Ajustes de Asientos</div>
 </button>
-<button class="nav-link d-flex justify-content-between align-items-start" id="aspirantes-tab" data-bs-toggle="pill" data-bs-target="#v-pills-aspirantes" type="button" role="tab">
+<button class="nav-link d-flex justify-content-between align-items-start" id="aspirantes-tab" data-bs-toggle="pill" data-bs-target="#v-pills-asientos-egresados" type="button" role="tab">
     <div class="ms-2 me-auto"><span class="material-icons">person_pin_circle</span> Asientos de Egresados</div>
 </button>
 <button class="nav-link d-flex justify-content-between align-items-start" id="soporte-tab" data-bs-toggle="pill" data-bs-target="#v-pills-soporte" type="button" role="tab">

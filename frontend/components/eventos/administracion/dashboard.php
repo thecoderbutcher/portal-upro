@@ -6,13 +6,9 @@
         <?php
             require_once 'home-view.php';
             require_once 'cargar-egresados.php';
-            require_once 'empleados-view.php';
-            require_once 'entradassalidas-view.php';
-            require_once 'recibos-view.php';
-            require_once 'aspirantes-view.php';
-            require_once 'soporte-view.php';
-            require_once 'seguridad-view.php';
-            require_once 'ajustes-view.php';
+            require_once 'confirmar-egresados.php';
+            require_once 'ajustes-asientos.php';
+            require_once 'asientos-egresados.php';
         ?> 
     </div>
 </div>  

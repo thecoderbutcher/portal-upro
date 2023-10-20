@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     registerIO()
     buscarEmpleado() 
-    salir()
+    salir();
+    console.log("first");
+    
 });
