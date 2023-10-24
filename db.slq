@@ -44,17 +44,9 @@ ALTER TABLE plataforma_upro.empleados ADD CONSTRAINT empleados_ubicacion_id_fkey
 ALTER TABLE plataforma_upro.empleados ADD CONSTRAINT empleados_area_id_fkey FOREIGN KEY (area_id) REFERENCES plataforma_upro.areas(id);
 ALTER TABLE plataforma_upro.empleados ADD CONSTRAINT empleados_rol_id_fkey FOREIGN KEY (rol_id) REFERENCES plataforma_upro.roles(id);
 
-CREATE TABLE plataforma_upro.registros (
-	id serial4 NOT NULL,
-	empleado_id int4 NULL,
-	registrador_id int4 NULL,
-	fecha_entrada timestamp NULL,
-	fecha_salida timestamp NULL,
-	CONSTRAINT registros_pkey PRIMARY KEY (id)
-);
-
 ALTER TABLE plataforma_upro.registros ADD CONSTRAINT registros_empleado_id_fkey FOREIGN KEY (empleado_id) REFERENCES plataforma_upro.empleados(id);
-ALTER TABLE plataforma_upro.registros ADD CONSTRAINT registros_registrador_id_fkey FOREIGN KEY (registrador_id) REFERENCES plataforma_upro.empleados(id);
+ALTER TABLE plataforma_upro.registros ADD CONSTRAINT registros_registrador_in_id_fkey FOREIGN KEY (registrador_in_id) REFERENCES plataforma_upro.empleados(id);
+ALTER TABLE plataforma_upro.registros ADD CONSTRAINT registros_registrador_out_id_fkey FOREIGN KEY (registrador_out_id) REFERENCES plataforma_upro.empleados(id);
 
 INSERT INTO plataforma_upro.roles (id, nombre) VALUES
     (1,'Administrador'),
