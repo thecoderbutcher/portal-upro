@@ -18,6 +18,7 @@
 						$_SESSION['username'] = "$user->nombres $user->apellido";
 						$_SESSION['rol']      = $user->rol_id;
 						$_SESSION['userdoc']  = $user->documento;
+						$_SESSION['ubicacion'] = $user->ubicacion_id;
 						header("Location:".URL_ROUTE);	
 					}
 				}

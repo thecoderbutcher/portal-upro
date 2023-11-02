@@ -57,4 +57,4 @@
         </tbody>
     </table>
 </div>
-<script type="text/javascript" src="<?php echo URL_ROUTE;?>/frontend/assets/js/security.js"></script>
+<script type="text/javascript" src="<?php echo URL_ROUTE;?>/frontend/assets/js/eventos.js"></script>

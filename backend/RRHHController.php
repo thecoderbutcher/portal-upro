@@ -117,9 +117,31 @@
 
 
 		}
+		public function cargaMasivaEgresados($csv){
+			# Quito la cabecera
+			array_shift($csv);
+						
+			# Recorro el csv
+			foreach($csv as $element){
+				$alumno = explode(",", $element);
+				$param = [
+					'documento' => $alumno[0],
+					'apellido' => $alumno[1],
+					'nombre' => $alumno[2],
+					//'telefono' => $alumno[3],
+					'carrera' => $this->userModel->getCarreraId($alumno[6]),
+					'ubicacion' => $this->userModel->getUbicacionId($alumno[9])
+				];
+				if($alumno[0] != "" ){
+					$this->userModel->agregarEgresado($param);
+				} 
+				//
+			} 
+		}
 
-		public function searchRegister($value){#
-			
+		public function distribuirEgresados(){
+			#
+			echo "entro";			
 		}
 
     }

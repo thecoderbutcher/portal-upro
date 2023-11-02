@@ -34,10 +34,7 @@
             }
             elseif($_POST['action'] === 'search-empleados'){
                 $rrhh->search($_POST['value']); 
-            }
-            elseif($_POST['action'] === 'search-register'){
-                $rrhh->searchRegister($_POST['value']); 
-            }
+            } 
             elseif($_POST['action'] === 'registrarEntrada'){
                 $param = [
                     "empleado"    => intval($_POST['empleado']),
@@ -53,7 +50,9 @@
                 ];
                 $security->registrarSalida($param);
             } 
-            
+            elseif($_POST['action'] === 'cargaMasivaEgresados'){
+                $rrhh->cargaMasivaEgresados($_POST['csv_file']);
+            }
             elseif($_POST['action'] === 'filtrarFechaUbicacion'){
                 $rrhh->registros($_POST['fecha_entrada']);
             }
@@ -62,6 +61,9 @@
             }
             elseif($_POST['action'] === 'habilitar'){
                 $rrhh->enableUser($_POST['documento']);
+            }
+            elseif($_POST['action'] === 'distribuir'){
+                $rrhh->distribuirEgresados();
             }
             elseif($_POST['action'] === 'salir'){
                 $auth->logout(); 

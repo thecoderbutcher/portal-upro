@@ -627,4 +627,15 @@ ALTER TABLE plataforma_upro.eventos_posicion ADD CONSTRAINT empleados_egresado_i
 ALTER TABLE plataforma_upro.eventos_posicion ADD CONSTRAINT empleados_evento_id_fkey FOREIGN KEY (evento_id) REFERENCES plataforma_upro.eventos(id);
 
 	
+CREATE TABLE plataforma_upro.carreras(
+	id serial4 NOT NULL,
+	nombre varchar(255) NULL,
+	egresado_id serial4 NOT NULL,
+	CONSTRAINT areas_pkey PRIMARY KEY (id)
+);
+
+ALTER TABLE plataforma_upro.carreras ADD CONSTRAINT carreras_egresado_id_fkey FOREIGN KEY (egresado_id) REFERENCES plataforma_upro.egresado(id);
+
+
+
 sudo docker run --name uplatform-dbserver -e POSTGRES_USER=uadmin -e POSTGRES_PASSWORD=password -e POSTGRES_DB=uplatform -p 5432:5432 -d postgres

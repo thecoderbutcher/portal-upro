@@ -31,14 +31,21 @@
 
         public function getRegistros($ubicacion, $fecha){            
             $this->db->query("
-                SELECT empleado.documento as e_documento, empleado.apellido as e_apellido, empleado.nombres as e_nombres, registro.fecha_entrada as r_entrada, registro.fecha_salida as r_salida, registrador.documento as r_documento, registrador.apellido as r_apellido, registrador.nombres as r_nombres
+                SELECT empleado.documento as e_documento, empleado.apellido as e_apellido, empleado.nombres as e_nombres, 
+                        registro.fecha_entrada as r_entrada, registro.fecha_salida as r_salida, 
+                        registrador_in.documento as rin_documento, registrador_in.apellido as rin_apellido, registrador_in.nombres as rin_nombres,
+                        registrador_out.documento as rout_documento, registrador_out.apellido as rout_apellido, registrador_out.nombres as rout_nombres
                 FROM plataforma_upro.registros registro
                 JOIN plataforma_upro.empleados empleado on empleado.id = registro.empleado_id
                 JOIN plataforma_upro.ubicaciones ubicacion on ubicacion.id = empleado.ubicacion_id
-                JOIN LEFT (
-                    SELECT 
-                    plataforma_upro.empleados registrador on registrador.id = registro.registrador_id
-                )
+                LEFT JOIN(
+                    SELECT id, apellido, nombres, documento
+                    from plataforma_upro.empleados
+                ) as registrador_in on registrador_in.id = registro.registrador_in_id
+                LEFT JOIN(
+                    SELECT id, apellido, nombres, documento
+                    from plataforma_upro.empleados
+                ) as registrador_out on registrador_out.id = registro.registrador_out_id
                 WHERE registro.fecha_entrada::text like :fecha || '%' 
                 AND ubicacion.nombre = :ubicacion
             ");

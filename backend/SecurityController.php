@@ -9,7 +9,7 @@
 		}
 
         public function index(){ 
-			return ['users' => $this->userModel->getUsers()];
+			return ['users' => $this->userModel->getUsersUbicacion($_SESSION['ubicacion'])];
         }
 
         public function registrarEntrada($values){

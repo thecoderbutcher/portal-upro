@@ -25,7 +25,7 @@
             }
             elseif ($_SESSION['rol'] == 7){
                 require_once 'components/eventos/administracion/dashboard.php';
-            }
+            } 
             require_once 'components/footer.php'; 
         }
 

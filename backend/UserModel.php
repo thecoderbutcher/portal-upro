@@ -19,9 +19,21 @@
 			$this->db->query('
 				SELECT empleado.documento as "documento", empleado.apellido as "apellido", empleado.nombres as "nombres", empleado.telefono as "telefono", empleado.email as "email", empleado.status as "status", areas.nombre as "area_nombre"
 				FROM plataforma_upro.empleados empleado
+				JOIN plataforma_upro.areas areas on areas.id = empleado.area_id  
+				ORDER BY apellido ASC
+			');  
+			return $this->db->getRecords();
+		}
+
+		public function getUsersUbicacion($ubicacion){
+			$this->db->query('
+				SELECT empleado.documento as "documento", empleado.apellido as "apellido", empleado.nombres as "nombres", empleado.telefono as "telefono", empleado.email as "email", empleado.status as "status", areas.nombre as "area_nombre"
+				FROM plataforma_upro.empleados empleado
 				JOIN plataforma_upro.areas areas on areas.id = empleado.area_id 
+				WHERE empleado.ubicacion_id = :ubicacion
 				ORDER BY apellido ASC
 			'); 
+			$this->db->bind(':ubicacion', $ubicacion);
 			return $this->db->getRecords();
 		}
 
@@ -90,6 +102,31 @@
 			$this->db->bind(':rol',intval(3));
 
 			return $this->db->execute();
+		}
+		public function agregarEgresado($param){ 
+			$this->db->query('
+				INSERT INTO plataforma_upro.egresados (nombres, apellido, documento,  ubicacion_id, carrera_id) 
+				VALUES (:nombres, :apellido, :documento, :ubicacion, :carrera)
+			');
+			$this->db->bind(':nombres',$param['nombre']);
+			$this->db->bind(':apellido',$param['apellido']);
+			$this->db->bind(':documento',$param['documento']);
+			#$this->db->bind(':telefono',$param['telefono']);
+			$this->db->bind(':ubicacion', $param['ubicacion']);
+			$this->db->bind(':carrera',$param['carrera']);
+			
+			return $this->db->execute(); 
+		}
+
+		public function getUbicacionId($ubicacion){
+			$this->db->query('SELECT id FROM plataforma_upro.ubicaciones WHERE nombre = :nombre');
+			$this->db->bind(':nombre', $ubicacion);
+			return ($this->db->getRecord())->id;
+		}
+		public function getCarreraId($carrera){
+			$this->db->query('SELECT id FROM plataforma_upro.carreras WHERE nombre = :nombre');
+			$this->db->bind(':nombre', $carrera);
+			return ($this->db->getRecord())->id;
 		}
 
 		public function searchUser($param){

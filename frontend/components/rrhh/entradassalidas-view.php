@@ -65,8 +65,8 @@
                             <tr class='entrada-salida-empleados'>
                                 <th class='text-center' scope='row'>$user->e_documento</th>
                                 <td class=''><span>$apellidos[0]</span><span class='hidden'> $apellidos[1]</span>, <span> $nombres[0]</span><span class='hidden'> $nombres[1]</span></td> 
-                                <td class='text-center'>$entrada</td>
-                                <td class='text-center'>$salida</td>
+                                <td class='text-center'>$entrada <span class='material-icons' data-bs-toggle='tooltip' data-bs-placement='top' title='$user->rin_nombres $user->rin_apellido'>account_circle</span></td>
+                                <td class='text-center'>$salida <span class='material-icons' data-bs-toggle='tooltip' data-bs-placement='top' title='$user->rout_nombres $user->rout_apellido'>account_circle</span></td>
                             </tr>";
                     }
                 ?>
