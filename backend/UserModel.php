@@ -158,5 +158,17 @@
 			$this->db->query('SELECT * FROM plataforma_upro.secretaria');
             return $this->db->getRecords();
 		}
+
+		# EVENTS CODE
+		public function setCantidadFila($param){
+			$this->db->query('
+				UPDATE plataforma_upro.eventos
+				SET cantidad_filas = :cantidad_fila
+				WHERE id = :id
+			'); 
+			$this->db->bind(':cantidad_fila', $param['cantidad_fila']);
+			$this->db->bind(':id', $param['evento_id']);
+			return $this->db->execute();
+		}
 	}
 ?>

@@ -138,10 +138,13 @@
 				//
 			} 
 		}
-
+		# EVent code
 		public function distribuirEgresados(){
-			#
-			echo "entro";			
+			$param = [
+				
+			]; 
+			$this->userModel->setCantidadFila();
+
 		}
 
     }
