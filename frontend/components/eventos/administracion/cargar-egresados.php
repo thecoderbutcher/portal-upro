@@ -31,6 +31,4 @@
         </form>
     </div>
 </div>
-<?php 
- echo ord('A'); echo chr(65);
-require_once 'modal-components.php'?>
+<?php require_once 'modal-components.php'?>

@@ -12,5 +12,4 @@
         ?> 
     </div>
 </div>  
-
 <script type="text/javascript" src="<?php echo URL_ROUTE;?>/frontend/assets/js/eventos.js"></script>

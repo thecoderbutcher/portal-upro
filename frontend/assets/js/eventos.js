@@ -48,7 +48,7 @@ formDistribuir.addEventListener('submit',(e) => {
             action: 'distribuir',
             cantidad_fila: formDistribuir.cantidadFilas.value,
             cantidad_asientos: formDistribuir.cantidadAsientos.value,
-            evento_id: formDistribuir.eventoID.value
+            ubicacion_id: formDistribuir.eventoID.value
         }
     })
     .then((response) => {

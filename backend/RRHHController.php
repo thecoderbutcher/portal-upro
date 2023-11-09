@@ -141,10 +141,11 @@
 		# EVent code
 		public function distribuirEgresados(){
 			$param = [
-				
+				'cantidad_asientos' => $_POST['cantidad_asientos'],
+				'cantidad_fila' => $_POST['cantidad_fila'],
+				'ubicacion_id' 	=> $_POST['ubicacion_id']
 			]; 
-			$this->userModel->setCantidadFila();
-
+			$this->userModel->setEventoCantidadFila($param);
 		}
 
     }

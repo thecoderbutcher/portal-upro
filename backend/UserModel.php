@@ -160,15 +160,81 @@
 		}
 
 		# EVENTS CODE
-		public function setCantidadFila($param){
-			$this->db->query('
-				UPDATE plataforma_upro.eventos
-				SET cantidad_filas = :cantidad_fila
-				WHERE id = :id
-			'); 
-			$this->db->bind(':cantidad_fila', $param['cantidad_fila']);
-			$this->db->bind(':id', $param['evento_id']);
-			return $this->db->execute();
+		public function getEventoId($ubicacion){
+			$this->db->query('SELECT id FROM plataforma_upro.eventos WHERE ubicacion_id = :ubicacion');
+			$this->db->bind(':ubicacion', intval($ubicacion));
+			return ($this->db->getRecord())->id;
+		}
+
+		public function getFilaId($evento_id){
+			$this->db->query('SELECT id FROM plataforma_upro.eventos_fila WHERE evento_id = :evento_id ORDER BY id DESC LIMIT 1');
+			$this->db->bind(':evento_id', intval($evento_id));
+			return ($this->db->getRecord())->id;
+		}
+
+		public function getEgresadosId($ubicacion){
+			$this->db->query('SELECT id FROM plataforma_upro.egresados WHERE ubicacion_id = :ubicacion_id');
+			$this->db->bind(':ubicacion_id', $ubicacion);
+			return $this->db->getRecords();
+		}
+
+		public function getFilasId($evento_id){
+			$this->db->query('SELECT id FROM plataforma_upro.eventos_fila WHERE evento_id = :evento_id');
+			$this->db->bind(':evento_id', $evento_id);
+			return $this->db->getRecords();
+		}
+
+		public function getAsientosId($fila_id){
+			$this->db->query('SELECT id FROM plataforma_upro.eventos_asientos WHERE fila_id = :fila_id');
+			$this->db->bind(':fila_id', $fila_id);
+			return $this->db->getRecords();
+		}
+
+		public function setEventoCantidadFila($param){
+			$evento_id = $this->getEventoId($param['ubicacion_id']);
+			
+			for($i = 1; $i <= intval($param['cantidad_fila']); $i++){
+				$this->db->query('
+					INSERT INTO plataforma_upro.eventos_fila (nombre, evento_id)
+					VALUES (:nombre, :id)
+				'); 
+				$this->db->bind(':nombre', $i);
+				$this->db->bind(':id', $evento_id);
+				$this->db->execute();
+
+				$fila_id = $this->getFilaId($evento_id); 
+				
+				for($j = 1; $j <= intval($param['cantidad_asientos']); $j++){
+					$this->db->query('
+						INSERT INTO plataforma_upro.eventos_asientos (nombre, fila_id)
+						VALUES (:nombre, :id)
+					'); 
+					$this->db->bind(':nombre', chr($j + 64));
+					$this->db->bind(':id', $fila_id);
+					$this->db->execute();
+				}
+			}
+
+			$egresados = $this->getEgresadosId($param['ubicacion_id']);
+			$filas = $this->getFilasId($evento_id);
+			
+			foreach($filas as $fila){
+				$asientos = $this->getAsientosId($fila->id);
+				foreach($asientos as $asiento){
+					if(count($egresados) > 0){
+						$egresado = array_shift($egresados);
+
+						$this->db->query('INSERT INTO plataforma_upro.eventos_posicion (asiento_id, fila_id, egresado_id, evento_id) VALUES (:asiento, :fila, :egresado, :evento)');
+						$this->db->bind(':asiento', $asiento->id);
+						$this->db->bind(':fila', $fila->id);
+						$this->db->bind(':egresado', $egresado->id);
+						$this->db->bind(':evento', $evento_id);
+						$this->db->execute();
+					}
+					else{
+						return;
+					}
+				}
+			} 
 		}
 	}
-?>

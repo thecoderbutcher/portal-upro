@@ -635,6 +635,7 @@ CREATE TABLE plataforma_upro.carreras(
 );
 
 ALTER TABLE plataforma_upro.carreras ADD CONSTRAINT carreras_egresado_id_fkey FOREIGN KEY (egresado_id) REFERENCES plataforma_upro.egresado(id);
+ALTER TABLE plataforma_upro.eventos_fila  ADD CONSTRAINT eventos_fila_evento_id_fkey FOREIGN KEY (evento_id) REFERENCES plataforma_upro.eventos(id);
 
 
 
