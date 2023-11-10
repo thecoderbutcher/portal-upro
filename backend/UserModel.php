@@ -204,12 +204,26 @@
 
 				$fila_id = $this->getFilaId($evento_id); 
 				
-				for($j = 1; $j <= intval($param['cantidad_asientos']); $j++){
+				$aux = 0;
+				for($j = 1; $j < intval($param['cantidad_asientos']); $j++){
+					if($aux === 0 && $j === 13 && $param['ubicacion_id'] === 1 && $param['ubicacion_id'] === 14){
+						$nombre = "LL";
+						$j = $j - 1;
+						$aux = $aux + 1; 
+					}
+					elseif($j >= 27){
+						$nombre = "Z$aux";
+						$aux++;
+					}
+					else{
+						$nombre = chr($j + 64);
+					}
+
 					$this->db->query('
 						INSERT INTO plataforma_upro.eventos_asientos (nombre, fila_id)
 						VALUES (:nombre, :id)
 					'); 
-					$this->db->bind(':nombre', chr($j + 64));
+					$this->db->bind(':nombre', $nombre);
 					$this->db->bind(':id', $fila_id);
 					$this->db->execute();
 				}
