@@ -4,7 +4,7 @@
     </div>
     <div class="col-10 tab-content mt-2" id="v-pills-tabContent">
         <?php
-            require_once 'home-view.php';
+            /* require_once 'home-view.php'; */
             require_once 'cargar-egresados.php';
             require_once 'confirmar-egresados.php';
             require_once 'ajustes-asientos.php';

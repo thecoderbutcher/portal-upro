@@ -127,3 +127,6 @@ ul#lateral-action {
   text-align: center;
   line-height: 35px;
 }
+#egresados-posiciones .btn-in, #egresados-posiciones .btn-out{
+  display: none;
+}

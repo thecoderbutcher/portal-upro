@@ -173,7 +173,7 @@
 		}
 
 		public function getEgresadosId($ubicacion){
-			$this->db->query('SELECT id FROM plataforma_upro.egresados WHERE ubicacion_id = :ubicacion_id');
+			$this->db->query('SELECT id FROM plataforma_upro.egresados WHERE ubicacion_id = :ubicacion_id ORDER BY carrera_id, apellido, nombres ASC');
 			$this->db->bind(':ubicacion_id', $ubicacion);
 			return $this->db->getRecords();
 		}
@@ -206,7 +206,7 @@
 				
 				$aux = 0;
 				for($j = 1; $j < intval($param['cantidad_asientos']); $j++){
-					if($aux === 0 && $j === 13 && $param['ubicacion_id'] === 1 && $param['ubicacion_id'] === 14){
+					if($aux === 0 && $j === 13 && (intval($param['ubicacion_id']) === 1 || intval($param['ubicacion_id']) === 14)){
 						$nombre = "LL";
 						$j = $j - 1;
 						$aux = $aux + 1; 
@@ -250,5 +250,65 @@
 					}
 				}
 			} 
+		}
+
+		public function getPosiciones($evento){
+			$this->db->query('
+				SELECT egresado.documento as "dni",
+				egresado.apellido as "apellido",
+				egresado.nombres as "nombres",
+				carrera.nombre as "carrera",
+				fila.nombre as "fila",
+				asiento.nombre as "asiento",
+				posicion.status as "status"
+				FROM plataforma_upro.eventos_posicion posicion
+				LEFT JOIN plataforma_upro.eventos_fila fila ON fila.id = posicion.fila_id 
+				LEFT JOIN plataforma_upro.eventos_asientos asiento ON asiento.id = posicion.asiento_id 
+				LEFT JOIN plataforma_upro.egresados egresado ON egresado.id = posicion.egresado_id
+				LEFT JOIN plataforma_upro.carreras carrera ON carrera.id = egresado.carrera_id 
+				LEFT JOIN plataforma_upro.ubicaciones ubicacion ON ubicacion.id = egresado.ubicacion_id 
+				WHERE posicion.evento_id = :evento_id'
+			);
+			$this->db->bind(':evento_id', $evento);
+			return $this->db->getRecords();
+		}
+
+		public function buscarEgresados($param){
+			$this->db->query("
+				SELECT egresado.documento as dni,
+				egresado.apellido as apellido,
+				egresado.nombres as nombres,
+				carrera.nombre as carrera,
+				fila.nombre as fila,
+				asiento.nombre as  asiento,
+				posicion.status as status
+				FROM plataforma_upro.eventos_posicion posicion
+				LEFT JOIN plataforma_upro.eventos_fila fila ON fila.id = posicion.fila_id 
+				LEFT JOIN plataforma_upro.eventos_asientos asiento ON asiento.id = posicion.asiento_id 
+				LEFT JOIN plataforma_upro.egresados egresado ON egresado.id = posicion.egresado_id
+				LEFT JOIN plataforma_upro.carreras carrera ON carrera.id = egresado.carrera_id 
+				LEFT JOIN plataforma_upro.ubicaciones ubicacion ON ubicacion.id = egresado.ubicacion_id 
+				WHERE posicion.evento_id = :evento_id
+				AND egresado.documento ILIKE '%' || :value || '%' 
+				OR egresado.apellido ILIKE '%' || :value || '%' 
+				OR egresado.nombres ILIKE '%' || :value || '%' 
+				ORDER BY fila.nombre::numeric, asiento.nombre ASC
+			");
+			$this->db->bind(':value', $param['value']);
+			$this->db->bind(':evento_id', intval($param['evento_id']));
+			return $this->db->getRecords();
+		}
+
+		public function registrarER($param){
+			$this->db->query('
+				UPDATE plataforma_upro.eventos_posicion posicion
+				SET status = :status
+				FROM plataforma_upro.egresados egresados
+				WHERE egresados.id = posicion.egresado_id 
+				AND egresados.documento = :dni'
+			);
+
+			$this->db->bind(':status', $param['status']);
+			$this->db->bind(':dni', $param['egresado']);
 		}
 	}

@@ -87,12 +87,7 @@ const registerIO = () => {
                 e.target.title = "Registrar salida"
                 e.target.firstChild.textContent = "Salida"
                 action.setAttribute('data-action','registrarSalida')
-            }
-            else{
-                e.target.id = "registrar-entrada"
-                e.target.firstChild.title = "Registrar entrada"
-                e.target.firstChild.textContent = "Entrada"
-                action.setAttribute('data-action','registrarEntrada')
+
             }
             action.classList.toggle("entrada")
         })

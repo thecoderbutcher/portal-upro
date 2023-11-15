@@ -119,7 +119,7 @@
 		}
 		public function cargaMasivaEgresados($csv){
 			# Quito la cabecera
-			array_shift($csv);
+			#array_shift($csv);
 						
 			# Recorro el csv
 			foreach($csv as $element){
@@ -128,14 +128,14 @@
 					'documento' => $alumno[0],
 					'apellido' => $alumno[1],
 					'nombre' => $alumno[2],
-					//'telefono' => $alumno[3],
-					'carrera' => $this->userModel->getCarreraId($alumno[6]),
-					'ubicacion' => $this->userModel->getUbicacionId($alumno[9])
+					#'telefono' => $alumno[3],
+					'carrera' => $this->userModel->getCarreraId($alumno[5]),
+					'ubicacion' => $this->userModel->getUbicacionId($alumno[8])
 				];
+
 				if($alumno[0] != "" ){
 					$this->userModel->agregarEgresado($param);
 				} 
-				//
 			} 
 		}
 		# EVent code

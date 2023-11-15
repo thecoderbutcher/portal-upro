@@ -7,6 +7,7 @@
     $auth     = new AuthController; 
     $rrhh     = new RRHHController;
     $security = new SecurityController;
+    $event    = new EventController;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST = json_decode(file_get_contents("php://input") , true);
@@ -65,8 +66,20 @@
             elseif($_POST['action'] === 'distribuir'){
                 $rrhh->distribuirEgresados();
             }
+            elseif($_POST['action'] === 'egresadosUbicacion'){
+                $event->getEgresadosUbicacion();
+            }
+            elseif($_POST['action'] === 'seRetiroEgresado'){
+                $event->registrarRetirada();
+            }
+            elseif($_POST['action'] === 'ingresoEgresado'){
+                $event->entradaRetirada();
+            }
             elseif($_POST['action'] === 'salir'){
                 $auth->logout(); 
+            }
+            elseif($_POST['action'] === 'buscarEgresado'){
+                $event->buscarEgresados();
             }
         }
     } 

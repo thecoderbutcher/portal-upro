@@ -1,9 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     salir() 
     procesarCsvEgresados()
-
-
-    
 })
 
 const procesarCsvEgresados = () => {
@@ -34,7 +31,7 @@ const cargamasivaEgresados = (data) => {
         }
     })
     .then(function(response){
-        console.log(response + "LALALALALLA")
+        console.log(response + ": Done!")
     }) 
 }   
 
@@ -54,4 +51,37 @@ formDistribuir.addEventListener('submit',(e) => {
     .then((response) => {
         console.log(response)
     }) 
+})
+
+const selectUbicacionEgresados = document.querySelector('#ubicacion-egresados')
+selectUbicacionEgresados.addEventListener('change', (e) =>{
+    axios({
+        method: 'post',
+        url: apiUrl,
+        data:{
+            action: 'egresadosUbicacion',
+            eventoID: e.target.value
+        }
+    })
+    .then((response) => {
+        const egresadosTBody = document.querySelector('#egresados-posiciones')
+        egresadosTBody.innerHTML = response.data;
+    })
+})
+
+const buscarEgresado = document.querySelector('#buscar-egresados')
+buscarEgresado.addEventListener('keyup', (e) => {
+    axios({
+        method: 'post',
+        url: apiUrl,
+        data: {
+            action: 'buscarEgresado',
+            value: e.target.value,
+            evento_id: selectUbicacionEgresados.value
+        }
+    })
+    .then((response) => {
+        const egresadosTBody = document.querySelector('#egresados-posiciones')
+        egresadosTBody.innerHTML = response.data;
+    })
 })
