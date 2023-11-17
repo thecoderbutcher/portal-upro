@@ -216,7 +216,14 @@
 						$aux++;
 					}
 					else{
-						$nombre = chr($j + 64);
+						if(($aux === 1 || $aux === 0) && $j === 15){
+							$nombre = 'Ñ';
+							$j = $j - 1  ;
+							$aux = 2;
+						}
+						else{
+							$nombre = chr($j + 64);
+						}
 					}
 
 					$this->db->query('
@@ -289,9 +296,9 @@
 				LEFT JOIN plataforma_upro.carreras carrera ON carrera.id = egresado.carrera_id 
 				LEFT JOIN plataforma_upro.ubicaciones ubicacion ON ubicacion.id = egresado.ubicacion_id 
 				WHERE posicion.evento_id = :evento_id
-				AND egresado.documento ILIKE '%' || :value || '%' 
+				AND (egresado.documento ILIKE '%' || :value || '%' 
 				OR egresado.apellido ILIKE '%' || :value || '%' 
-				OR egresado.nombres ILIKE '%' || :value || '%' 
+				OR egresado.nombres ILIKE '%' || :value || '%') 
 				ORDER BY fila.nombre::numeric, asiento.nombre ASC
 			");
 			$this->db->bind(':value', $param['value']);
@@ -309,6 +316,8 @@
 			);
 
 			$this->db->bind(':status', $param['status']);
-			$this->db->bind(':dni', $param['egresado']);
+			$this->db->bind(':dni', $param['documento']);
+			$this->db->execute();
+			return $param['status'];
 		}
 	}

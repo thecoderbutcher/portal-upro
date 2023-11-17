@@ -24,6 +24,7 @@ selectUbicacion.addEventListener('change', (e) => {
 
 const buscarEgresado = document.querySelector('#buscar-egresados')
 buscarEgresado.addEventListener('keyup', (e) => {
+    console.log(selectUbicacion.value)
     axios({
         method: 'post',
         url: apiUrl,
@@ -36,16 +37,15 @@ buscarEgresado.addEventListener('keyup', (e) => {
     .then((response) => {
         const egresadosTBody = document.querySelector('#egresados-acreditaciones')
         egresadosTBody.innerHTML = response.data;
+        EgresadosIO()
     })
 })
 
 const EgresadosIO = () => {
-    console.log("in")
     const actions = document.querySelectorAll('.eio-actions')
     actions.forEach((action) => {
         action.addEventListener('click', function(e){
-            console.log("e.target.value")
-            /* axios({
+            axios({
                 method: 'post',
                 url: apiUrl,
                 data: {
@@ -55,16 +55,23 @@ const EgresadosIO = () => {
                 }
             })
             .then(function(response){
+                console.log(response.data)
                 action.setAttribute('data-status',response.data)  
             })
+
             if(e.target.id == "registrar-entrada"){
                 e.target.id = "registrar-salida"
                 e.target.title = "Registrar salida"
-                e.target.firstChild.textContent = "Salida"
+                e.target.firstChild.textContent = "Se Retiró"
                 action.setAttribute('data-action','registrarSalida')
-
-            } 
-            action.classList.toggle("entrada")*/
+            }
+            else{
+                e.target.id = "registrar-entrada"
+                e.target.title = "Registrar entrada"
+                e.target.firstChild.textContent = "Ingresó"
+                action.setAttribute('data-action','registrarEntrada')
+            }
+            action.classList.toggle("entrada")
         })
     })
 }

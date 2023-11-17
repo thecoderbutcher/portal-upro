@@ -69,9 +69,6 @@
             elseif($_POST['action'] === 'egresadosUbicacion'){
                 $event->getEgresadosUbicacion();
             }
-            elseif($_POST['action'] === 'seRetiroEgresado'){
-                $event->registrarRetirada();
-            }
             elseif($_POST['action'] === 'ingresoEgresado'){
                 $event->entradaRetirada();
             }

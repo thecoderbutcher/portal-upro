@@ -25,7 +25,7 @@
                     $text .= "<td class='text-center btn-in'><button class='eio-actions btn btn-primary entrada' id='registrar-entrada' data-empleado='$egresado->dni' data-action='ingresoEgresado' data-status='0' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar entrada'>Ingresó</button></td></tr>"; 
                 }
                 else{
-                    $text .= "<td class='text-center btn-out line-danger'><button class='eio-actions btn btn-primary' id='registrar-salida' data-empleado='$egresado->dni'  data-action='seRetiroEgresado' data-status='$egresado->status' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar salida'>Se Retiró</button></td></tr>";
+                    $text .= "<td class='text-center btn-out line-danger'><button class='eio-actions btn btn-primary' id='registrar-salida' data-empleado='$egresado->dni'  data-action='ingresoEgresado' data-status='1' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar salida'>Se Retiró</button></td></tr>";
                 } 
                 $text .= "</tr>";
             }
@@ -45,14 +45,14 @@
 						<td>$egresado->apellido, $egresado->nombres</td>
                         <td>$egresado->carrera</td>
                         <td class='text-center'>$egresado->fila</td>
-                        <td class='text-center'>$egresado->asiento $egresado->status</td> 
+                        <td class='text-center'>$egresado->asiento</td> 
 					";
 
                 if($egresado->status == 0){
-                    $text .= "<td class='text-center btn-in'><button class='eio-actions btn btn-primary entrada' id='registrar-entrada' data-empleado='$egresado->dni' data-action='registrarEntrada' data-status='0' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar entrada'>Ingresó</button></td></tr>"; 
+                    $text .= "<td class='text-center btn-in'><button class='eio-actions btn btn-primary entrada' id='registrar-entrada' data-empleado='$egresado->dni' data-action='ingresoEgresado' data-status='0' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar entrada'>Ingresó</button></td></tr>";  
                 }
                 else{
-                    $text .= "<td class='text-center btn-out'><button class='eio-actions btn btn-primary' id='registrar-salida' data-empleado='$egresado->dni'  data-action='registrarSalida' data-status='$egresado->status' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar salida'>Se Retiró</button></td></tr>";
+                    $text .= "<td class='text-center btn-out line-danger'><button class='eio-actions btn btn-primary' id='registrar-salida' data-empleado='$egresado->dni'  data-action='ingresoEgresado' data-status='1' data-bs-toggle='tooltip' data-bs-placement='bottom' title='Registrar salida'>Se Retiró</button></td></tr>";
                 } 
                 $text .= "</tr>";
             }
@@ -61,15 +61,10 @@
 
         public function entradaRetirada(){
             $param = [
-                'status' => $_POST['status'],
-                'documento' => $_POST['dataStat']
+                'status'    => $_POST['dataStatus'] == 0 ? 1 : 0 ,
+                'documento' => $_POST['egresado']
             ];
-            return $this->userModel->registrarER($_POST['egresado']);
-            
-        }
-
-        public function registrarRetirada(){
-            
+            echo $this->userModel->registrarER($param);
         }
     }
 

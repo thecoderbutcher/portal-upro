@@ -26,6 +26,9 @@
             elseif ($_SESSION['rol'] == 7){
                 require_once 'components/eventos/administracion/dashboard.php';
             } 
+            elseif ($_SESSION['rol'] == 8){
+                require_once 'components/eventos/diplomas/dashboard.php';
+            } 
             require_once 'components/footer.php'; 
         }
 
