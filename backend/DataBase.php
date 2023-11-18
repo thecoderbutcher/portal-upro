@@ -1,18 +1,18 @@
 <?php 
     class DataBase{
         # data for conection
-		private $sdbm    = "pgsql";
+		/* private $sdbm    = "pgsql";
         private $host    = "10.18.120.183";
         private $port    = "5432";
         private $dbname  = "guarani3";
         private $user    = "postgres";
-        private $pass    = "poimnbqaz.,";
-		/* private $sdbm    = "pgsql";
+        private $pass    = "poimnbqaz.,"; */
+		private $sdbm    = "pgsql";
         private $host    = "localhost";
         private $port    = "5432";
         private $dbname  = "uplatform";
         private $user    = "uadmin";
-        private $pass    = "password";  */
+        private $pass    = "password"; 
 
         private $dbh;  #handler
 		private	$stmt; #statement
