@@ -136,3 +136,45 @@ CREATE TABLE plataforma_upro.registros (
 	CONSTRAINT registros_pkey PRIMARY KEY (id)
 );
 -- plataforma_upro.registros foreign keys
+
+
+
+
+
+
+
+
+--ALTER SEQUENCE plataforma_upro.eventos_posicion_id_seq RESTART WITH 61;
+--ALTER SEQUENCE plataforma_upro.eventos_fila_id_seq RESTART WITH 4;
+--ALTER SEQUENCE plataforma_upro.eventos_asientos_id_seq RESTART WITH 61;
+
+update uplatform.plataforma_upro.eventos_posicion posicion
+set fila_id = :fila,
+	asiento_id = :asiento_id 
+FROM plataforma_upro.egresados egresados
+WHERE egresados.id = posicion.egresado_id 
+AND egresados.documento = :dni::text
+
+
+
+SELECT egresados.documento as documento, egresados.apellido as apellido, egresados.nombres as nombres, carrera.nombre as carrera, fila.nombre as fila, asiento.nombre as asiento, posicion.status as estado   
+FROM plataforma_upro.eventos_posicion posicion
+LEFT JOIN plataforma_upro.eventos_fila fila on fila.id = posicion.fila_id 
+LEFT JOIN plataforma_upro.eventos_asientos asiento on asiento.id  = posicion.asiento_id 
+LEFT JOIN plataforma_upro.egresados egresados on egresados.id = posicion.egresado_id 
+LEFT JOIN plataforma_upro.carreras carrera on carrera.id = egresados.carrera_id 
+WHERE posicion.evento_id = :evento AND fila.nombre = :fila::text
+order by fila.nombre, asiento.nombre 
+
+
+select  count (*)
+from plataforma_upro.eventos_posicion posicion
+where posicion.status = 1 and posicion.evento_id  = :evento
+
+select  count (*)
+from plataforma_upro.eventos_posicion posicion
+where posicion.evento_id  = :evento
+
+SELECT *
+FROM plataforma_upro.eventos_posicion posicion
+WHERE posicion.evento_id = :evento
