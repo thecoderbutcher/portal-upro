@@ -72,6 +72,12 @@
             elseif($_POST['action'] === 'ingresoEgresado'){
                 $event->entradaRetirada();
             }
+            elseif($_POST['action'] === 'consultar-egresados'){
+                $event->egresadosConsulta();
+            }
+            elseif($_POST['action'] === 'estadistica'){
+                $event->estadisticas();
+            }
             elseif($_POST['action'] === 'salir'){
                 $auth->logout(); 
             }

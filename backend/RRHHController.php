@@ -115,7 +115,6 @@
 				echo $text;
 			}
 
-
 		}
 		public function cargaMasivaEgresados($csv){
 			# Quito la cabecera
@@ -138,15 +137,15 @@
 				} 
 			} 
 		}
+
 		# EVent code
 		public function distribuirEgresados(){
 			$param = [
-				'cantidad_asientos' => $_POST['cantidad_asientos'],
-				'cantidad_fila' => $_POST['cantidad_fila'],
-				'ubicacion_id' 	=> $_POST['ubicacion_id']
-			]; 
+				'cantidad_asientos' => intval($_POST['cantidad_asientos']),
+				'cantidad_fila' => intval($_POST['cantidad_fila']),
+				'ubicacion_id' 	=> intval($_POST['ubicacion_id'])
+			];  
 			$this->userModel->setEventoCantidadFila($param);
-		}
-
+		} 
     }
 ?>

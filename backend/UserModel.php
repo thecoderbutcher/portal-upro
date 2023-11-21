@@ -192,7 +192,6 @@
 
 		public function setEventoCantidadFila($param){
 			$evento_id = $this->getEventoId($param['ubicacion_id']);
-			
 			for($i = 1; $i <= intval($param['cantidad_fila']); $i++){
 				$this->db->query('
 					INSERT INTO plataforma_upro.eventos_fila (nombre, evento_id)
@@ -256,7 +255,7 @@
 						return;
 					}
 				}
-			} 
+			}
 		}
 
 		public function getPosiciones($evento){
@@ -320,4 +319,42 @@
 			$this->db->execute();
 			return $param['status'];
 		}
+
+		public function consultarEgresados($param){
+			$this->db->query('
+				SELECT egresados.documento as documento, egresados.apellido as apellido, egresados.nombres as nombres, carrera.nombre as carrera, fila.nombre as fila, asiento.nombre as asiento, posicion.status as estado   
+				FROM plataforma_upro.eventos_posicion posicion
+				LEFT JOIN plataforma_upro.eventos_fila fila on fila.id = posicion.fila_id 
+				LEFT JOIN plataforma_upro.eventos_asientos asiento on asiento.id  = posicion.asiento_id 
+				LEFT JOIN plataforma_upro.egresados egresados on egresados.id = posicion.egresado_id 
+				LEFT JOIN plataforma_upro.carreras carrera on carrera.id = egresados.carrera_id 
+				WHERE posicion.evento_id = :evento AND fila.nombre = :fila
+				ORDER BY fila.nombre, asiento.nombre 
+			');
+			$this->db->bind(':evento', $param['evento']);
+			$this->db->bind(':fila', $param['fila']);
+
+			return $this->db->getRecords();
+		}
+
+		public function nroTotalEstadisticos($param){
+			$this->db->query('
+				SELECT *
+				FROM plataforma_upro.eventos_posicion posicion
+				WHERE posicion.evento_id = :evento
+			');
+			$this->db->bind(':evento', $param);
+			return $this->db->rowCount();
+		}
+
+		public function nroPresenteEstatisticos($param){
+			$this->db->query('
+				SELECT count (*)
+				FROM plataforma_upro.eventos_posicion posicion
+				WHERE posicion.status = 1 and posicion.evento_id = :evento
+			');
+			$this->db->bind(':evento', $param);
+			return $this->db->rowCount(); 
+		}
+
 	}

@@ -66,7 +66,38 @@
             ];
             echo $this->userModel->registrarER($param);
         }
-    }
 
+        public function egresadosConsulta(){
+            $text = "";
+            $param = [
+                'evento' => $_POST['eventoID'],
+                'fila'   => $_POST['fila']
+            ];
 
+            foreach($this->userModel->consultarEgresados($param) as $egresado){  
+                $text .= "
+					<tr class='egresado-posicion'>
+						<th scope='row' class='text-center'>$egresado->documento</th>
+						<td>$egresado->apellido, $egresado->nombres</td>
+                        <td>$egresado->carrera</td>
+                        <td class='text-center'>$egresado->fila</td>
+                        <td class='text-center'>$egresado->asiento</td> 
+					";
+
+                if($egresado->estado == 0){
+                    $text .= "<td class='text-center'>No</td>";
+                }
+                else{
+                    $text .= "<td class='text-center'>Si</td>";
+                } 
+                $text .= "</tr>";
+            }
+            echo $text;
+        }
+
+        public function estadisticas(){
+            $total = $this->userModel->nroPresenteEstatisticos(intval($_POST['eventoID']));
+            echo $total;
+        }
+    } 
 ?>
