@@ -8,11 +8,11 @@
         <section class="col-xs-12 col-sm-12 col-md-6">
             <select class="form-select form-select mb-3" aria-label=".form-select-lg example" id="ubicacion-egresados">
                 <option selected disabled>Seleccionar ubicación</option>
-                <option value="1">Egresados Candelaria</option>
+                <!-- <option value="1">Egresados Candelaria</option>
                 <option value="2">Egresados Quines</option>
                 <option value="3">Egresados San Martin</option>
                 <option value="4">Egresados La Calera</option>
-                <option value="5">Egresados Buena Esperanza</option>
+                <option value="5">Egresados Buena Esperanza</option> -->
                 <option value="6">Egresados Tilisarao</option>
                 <option value="7">Egresados Merlo</option>
                 <option value="8">Egresados San Luis</option>

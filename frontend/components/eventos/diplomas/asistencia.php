@@ -5,11 +5,11 @@
     <form name="consultar-egresados" class="col-12">
         <select class="form-select form-select mt-2 mb-2" name="eventoID">
             <option selected disabled>Seleeccionar ubicación</option>
-            <option value="1">Candelaria</option>
+            <!-- <option value="1">Candelaria</option>
             <option value="2">Quines</option>
             <option value="3">San Martin</option>
             <option value="4">La Calera</option>
-            <option value="5">Buena Esperanza</option>
+            <option value="5">Buena Esperanza</option> -->
             <option value="6">Tilisarao</option>
             <option value="7">Merlo</option>
             <option value="8">San Luis</option>

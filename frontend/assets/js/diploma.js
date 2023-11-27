@@ -32,6 +32,7 @@ estadisticas.addEventListener('change', (e) => {
         }
     })
     .then(function(response){ 
-        console.log(response.data)
+        const bodyEstadistica = document.querySelector('#estadisticasTotales');
+        bodyEstadistica.innerHTML = (response.data)   
     })  
 })

@@ -95,9 +95,27 @@
             echo $text;
         }
 
-        public function estadisticas(){
-            $total = $this->userModel->nroPresenteEstatisticos(intval($_POST['eventoID']));
-            echo $total;
+        public function estadisticas(){ 
+            $total = count($this->userModel->nroTotalEstadisticos(intval($_POST['eventoID'])));
+            $acreditados = count($this->userModel->nroPresenteEstatisticos(intval($_POST['eventoID'])));
+            $noAcreditados = $total - $acreditados;
+            
+            $text = "
+            <div class='col-2 mt-4'>
+                <h3 class='text-center'>$total</h3>
+                <p class='text-center'><small>Cantidad de Egresados</small></p>
+            </div>
+            <div class='col-2 mt-4'>
+                <h3 class='text-center'>$acreditados</h3>
+                <p class='text-center'><small>Cantidad de Acreditados</small></p>
+            </div>
+            <div class='col-2 mt-4'>
+                <h3 class='text-center'>$noAcreditados</h3>
+                <p class='text-center'><small>No Acreditados</small></p>
+            </div>
+            "; 
+
+            echo $text;
         }
     } 
 ?>

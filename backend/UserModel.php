@@ -273,7 +273,8 @@
 				LEFT JOIN plataforma_upro.egresados egresado ON egresado.id = posicion.egresado_id
 				LEFT JOIN plataforma_upro.carreras carrera ON carrera.id = egresado.carrera_id 
 				LEFT JOIN plataforma_upro.ubicaciones ubicacion ON ubicacion.id = egresado.ubicacion_id 
-				WHERE posicion.evento_id = :evento_id'
+				WHERE posicion.evento_id = :evento_id
+				ORDER BY fila.nombre::numeric, asiento.nombre ASC'
 			);
 			$this->db->bind(':evento_id', $evento);
 			return $this->db->getRecords();
@@ -329,7 +330,7 @@
 				LEFT JOIN plataforma_upro.egresados egresados on egresados.id = posicion.egresado_id 
 				LEFT JOIN plataforma_upro.carreras carrera on carrera.id = egresados.carrera_id 
 				WHERE posicion.evento_id = :evento AND fila.nombre = :fila
-				ORDER BY fila.nombre, asiento.nombre 
+				ORDER BY fila.nombre::numeric, asiento.nombre ASC
 			');
 			$this->db->bind(':evento', $param['evento']);
 			$this->db->bind(':fila', $param['fila']);
@@ -344,17 +345,17 @@
 				WHERE posicion.evento_id = :evento
 			');
 			$this->db->bind(':evento', $param);
-			return $this->db->rowCount();
+			return $this->db->getRecords();
 		}
 
 		public function nroPresenteEstatisticos($param){
 			$this->db->query('
-				SELECT count (*)
+				SELECT *
 				FROM plataforma_upro.eventos_posicion posicion
 				WHERE posicion.status = 1 and posicion.evento_id = :evento
 			');
 			$this->db->bind(':evento', $param);
-			return $this->db->rowCount(); 
+			return $this->db->getRecords(); 
 		}
 
 	}
